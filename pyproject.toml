@@ -1,0 +1,101 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "multilingual-product-ranking"
+version = "0.1.0"
+description = "Competition-aligned multilingual product ranking on Amazon ESCI (KDD Cup 2022 Task 1)."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Apache-2.0" }
+authors = [{ name = "Jian Gao" }]
+keywords = ["information-retrieval", "learning-to-rank", "cross-encoder", "esci", "ndcg"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# ---------------------------------------------------------------------------
+# Core dependencies — the MINIMUM VIABLE LOOP only (MIGRATION_PLAN.md §10.1):
+#   raw ESCI -> Task 1 pool/split -> official baseline -> Cross-Encoder
+#   -> NDCG (full/@20/@10) -> paired bootstrap -> locale slicing
+#
+# Deliberately ABSENT from core (see the optional extras below and §11):
+#   lightgbm  -> LambdaMART is Phase 6b only, and lives under legacy/
+#   faiss     -> full-catalog retrieval is deferred (§7.4); no ANN index here
+#   nltk      -> PorterStemmer feeds `word_overlap`, a Layer 2 feature (§4.2)
+#   tkinter   -> the interactive GUI is not migrated (§7.3-6)
+# ---------------------------------------------------------------------------
+dependencies = [
+    # --- data plane -------------------------------------------------------
+    "numpy==2.2.6",
+    "pandas==3.0.1",
+    "pyarrow==23.0.1",
+
+    # --- deterministic train/dev split ------------------------------------
+    # HARD PIN, NON-NEGOTIABLE (MIGRATION_PLAN.md §4.1).
+    # The Layer 1 core pool is split with
+    #     train_test_split(test_size=0.15, random_state=42,
+    #                      stratify=product_locale)
+    # `train_test_split`'s shuffling implementation may change across
+    # scikit-learn major versions, so the SAME seed can yield a DIFFERENT
+    # partition on a different version. That silently changes every dev-set
+    # number, including the 0.8456 NDCG@20 in §10.2a. Never relax to `>=`.
+    "scikit-learn==1.8.0",
+    "scipy==1.17.1",
+
+    # --- modelling --------------------------------------------------------
+    "torch==2.10.0",
+    "transformers==5.2.0",
+    "sentence-transformers==5.2.3",
+    "accelerate==1.14.0",
+    "safetensors==0.7.0",
+    "huggingface_hub==1.4.1",
+    "tokenizers==0.22.2",
+
+    # --- lexical feature producer (src/features/bm25_pool.py) -------------
+    "bm25s==0.3.0",
+    "joblib==1.5.3",
+
+    "tqdm==4.67.3",
+]
+
+[project.optional-dependencies]
+# Phase 6a — Two-Tower V2 training (optional; not in the minimum loop).
+two-tower = [
+    "datasets==4.6.1",
+    "matplotlib==3.10.3",
+]
+
+# Phase 6b — historical LambdaMART reproduction. Requires the out-of-band
+# Layer 2 feature matrix, whose `semantic_score` column was produced by a
+# GROUP-ORIGINATED Two-Tower V0 checkpoint that is not part of this
+# repository (§4.2). Guarded by the sha256 precondition in §10.3.
+legacy = [
+    "lightgbm==4.7.0",
+    "nltk==3.9.1",
+]
+
+# Phase 6c — exploratory zero-shot reranker bake-off.
+# WARNING: this extra enables experiments that load `jinaai/jina-reranker-v3.5`,
+# which is CC BY-NC 4.0 (NON-COMMERCIAL). See NOTICE. Results produced with it
+# must stay under experiments/exploratory/ and must never be described as
+# commercial- or production-compatible (§6).
+exploratory = [
+    "datasets==4.6.1",
+]
+
+dev = [
+    "pytest>=8.0",
+    "psutil==7.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]

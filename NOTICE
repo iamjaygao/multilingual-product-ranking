@@ -1,0 +1,200 @@
+multilingual-product-ranking
+Copyright 2026 Jian Gao
+
+This product includes software developed by Jian Gao, licensed under the
+Apache License, Version 2.0. See the LICENSE file for the full text.
+
+This NOTICE file is required by Apache License 2.0 Section 4(d) and must be
+reproduced in any redistribution of this work or of derivative works.
+
+================================================================================
+1. DATASET — Amazon ESCI (Shopping Queries Dataset)
+================================================================================
+
+Amazon ESCI / Shopping Queries Dataset
+    Source:    https://github.com/amazon-science/esci-data
+    Copyright: Amazon.com, Inc. or its affiliates
+    License:   Apache License 2.0 (repository code)
+               The dataset itself is released for research use under the terms
+               stated in that repository.
+    Modified:  No. This project reads the dataset read-only. No ESCI data file
+               is vendored, redistributed, or committed to this repository;
+               it is fetched by the user from the upstream source.
+
+Citation (KDD Cup 2022):
+
+    Chandan K. Reddy, Lluis Marquez, Fran Valero, Nikhil Rao, Hugo Zaragoza,
+    Sambaran Bandyopadhyay, Arnab Biswas, Anlu Xing, Karthik Subbian.
+    "Shopping Queries Dataset: A Large-Scale ESCI Benchmark for Improving
+    Product Search." arXiv:2206.06588, 2022.
+
+================================================================================
+2. REPRODUCED BASELINE — Amazon official KDD Cup 2022 Task 1 recipe
+================================================================================
+
+Amazon official Task 1 ranking baseline
+    Source:    https://github.com/amazon-science/esci-data
+    Copyright: Amazon.com, Inc. or its affiliates
+    License:   Apache License 2.0
+    Modified:  Not vendored. This repository contains an INDEPENDENT
+               REPRODUCTION of the documented baseline recipe
+               (scripts/reproduce_official_baseline.py). No Amazon source code
+               was copied into this repository.
+
+    The reproduced baseline's reported scores are OUR reproduction's scores.
+    They are not published Amazon results and must not be presented as such.
+
+================================================================================
+3. PRE-TRAINED MODELS — HuggingFace Hub
+================================================================================
+
+Every base model below is downloaded at runtime from the HuggingFace Hub. None
+of their weights are redistributed in this repository. Each retains its own
+license, which governs your use of that model and of any weights you fine-tune
+from it.
+
+--------------------------------------------------------------------------------
+sentence-transformers/msmarco-distilbert-base-v3
+    License:   Apache License 2.0
+    Modified:  Yes — fine-tuned (Two-Tower V0 / V2 dense encoder)
+    Used by:   src/retrieval/two_tower_training.py (Phase 6a, optional)
+
+--------------------------------------------------------------------------------
+cross-encoder/ms-marco-MiniLM-L-12-v2
+    License:   Apache License 2.0
+    Modified:  Yes — fine-tuned (Amazon official baseline reproduction, US arm)
+    Used by:   scripts/reproduce_official_baseline.py
+
+--------------------------------------------------------------------------------
+sentence-transformers/multi-qa-mpnet-base-dot-v1
+    License:   Apache License 2.0
+    Modified:  No — used as-is (official baseline reproduction, ES and JP arms)
+    Used by:   scripts/reproduce_official_baseline.py
+
+--------------------------------------------------------------------------------
+FacebookAI/xlm-roberta-base
+    License:   MIT License
+    Copyright: Facebook AI Research / Meta Platforms, Inc.
+    Modified:  Yes — fine-tuned (V2 Cross-Encoder base model)
+    Used by:   scripts/train_cross_encoder.py
+
+--------------------------------------------------------------------------------
+BAAI/bge-reranker-v2-m3
+    License:   Apache License 2.0
+    Copyright: Beijing Academy of Artificial Intelligence (BAAI)
+    Modified:  No — zero-shot, unmodified
+    Used by:   experiments/exploratory/benchmark_modern_rerankers.py
+
+--------------------------------------------------------------------------------
+Qwen/Qwen3-Reranker-0.6B
+    License:   Apache License 2.0
+    Copyright: Alibaba Cloud / Qwen Team
+    Modified:  Yes — zero-shot use plus LoRA fine-tuning
+    Used by:   experiments/exploratory/benchmark_modern_rerankers.py
+               experiments/exploratory/v3_train_qwen_lora.py
+
+--------------------------------------------------------------------------------
+jinaai/jina-reranker-v3.5
+    License:   *** CC BY-NC 4.0 — NON-COMMERCIAL ONLY ***
+    Copyright: Jina AI GmbH
+    Modified:  No — zero-shot, unmodified
+    Used by:   experiments/exploratory/benchmark_modern_rerankers.py
+               experiments/exploratory/v3_ensemble_audit.py
+
+    >>> SEE SECTION 4 BELOW. THIS MODEL CARRIES A USE RESTRICTION THAT THE
+    >>> OTHER MODELS IN THIS FILE DO NOT.
+
+================================================================================
+4. *** NON-COMMERCIAL RESTRICTION — jinaai/jina-reranker-v3.5 ***
+================================================================================
+
+`jinaai/jina-reranker-v3.5` is licensed under
+Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0):
+
+    https://creativecommons.org/licenses/by-nc/4.0/
+
+THIS MODEL MAY NOT BE USED FOR COMMERCIAL PURPOSES.
+
+This restriction is narrower than the Apache 2.0 license covering this
+repository's own code. The Apache 2.0 grant in LICENSE applies to code authored
+here; it does NOT and CANNOT relicense the Jina model or extend any commercial
+right over it.
+
+Affected artifacts in this repository:
+
+    experiments/exploratory/benchmark_modern_rerankers.py   (loads the model)
+    experiments/exploratory/v3_ensemble_audit.py            (reads its outputs)
+    experiments/exploratory/results/**                      (any file whose
+                                                             results derive
+                                                             from Jina)
+
+Binding rules for this repository (MIGRATION_PLAN.md §6):
+
+  1. No Jina-derived result may be described as commercial-ready,
+     production-ready, or deployment-ready. It is not.
+  2. All Jina experiments live under experiments/exploratory/ and are labelled
+     `exploratory` in the directory, the report front-matter, and the results
+     JSON.
+  3. Jina numbers must not appear in the headline results table, the README
+     summary, or any production/deployment narrative.
+  4. Anyone redistributing this repository, or any work derived from it, must
+     carry this restriction forward.
+  5. If a commercially usable zero-shot reranker is required, use
+     BAAI/bge-reranker-v2-m3 (Apache 2.0) or Qwen/Qwen3-Reranker-0.6B
+     (Apache 2.0). Both are already benchmarked in the same harness and carry
+     no such restriction.
+
+Installing the `exploratory` extra enables code paths that load this model.
+The core install does not.
+
+================================================================================
+5. THIRD-PARTY PYTHON LIBRARIES
+================================================================================
+
+Used as unmodified libraries via their published distributions; not vendored.
+
+    numpy                   BSD 3-Clause
+    pandas                  BSD 3-Clause
+    pyarrow (Apache Arrow)  Apache License 2.0
+    scikit-learn            BSD 3-Clause
+    scipy                   BSD 3-Clause
+    PyTorch                 BSD 3-Clause
+    transformers            Apache License 2.0
+    sentence-transformers   Apache License 2.0
+    accelerate              Apache License 2.0
+    safetensors             Apache License 2.0
+    huggingface_hub         Apache License 2.0
+    tokenizers              Apache License 2.0
+    bm25s                   MIT License
+    joblib                  BSD 3-Clause
+    tqdm                    MIT License / MPL 2.0
+
+Optional extras:
+
+    datasets                Apache License 2.0    [two-tower, exploratory]
+    matplotlib              PSF-based (matplotlib license)  [two-tower]
+    lightgbm                MIT License           [legacy]
+    nltk                    Apache License 2.0    [legacy]
+    pytest                  MIT License           [dev]
+    psutil                  BSD 3-Clause          [dev]
+
+================================================================================
+6. PRIOR WORK AND ATTRIBUTION
+================================================================================
+
+This repository is the personally-authored subset of an earlier project that
+began as a three-person university course project
+(`esci-search-ranking-system`). The ownership boundary is documented in
+MIGRATION_PLAN.md §7, which was verified against git history.
+
+Components originating with teammates — the baseline and advanced MLP
+rerankers, the Two-Tower V0 encoder, the ESCI-S integration, the interactive
+GUI, and the current BM25 retrieval module — are NOT part of this repository.
+Where a result from that prior work is cited here, docs/prior_work.md names its
+originator.
+
+One dependency on that prior work survives as DATA rather than code: the
+`semantic_score` column of the optional Layer 2 feature matrix was produced by
+a group-originated Two-Tower V0 checkpoint that is not distributed here
+(MIGRATION_PLAN.md §4.2, §10.3). It is required only by the optional Phase 6b
+LambdaMART reproduction under legacy/, and never by the main pipeline.

@@ -1,0 +1,83 @@
+# ---------------------------------------------------------------------------
+# multilingual-product-ranking — .gitignore
+# Rewritten for this repo's layout (MIGRATION_PLAN.md §8). Not a copy of the
+# old repo's file: the paths here are new-repo paths.
+# ---------------------------------------------------------------------------
+
+# --- Python ----------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+
+# --- Virtual environments --------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+
+# --- OS / editor -----------------------------------------------------------
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# ---------------------------------------------------------------------------
+# data/ — ALL contents ignored, directory skeleton kept.
+#   data/raw/             upstream ESCI parquets; fetched, never vendored (§4)
+#   data/task1/           Layer 1 core pool; REBUILT locally, not transferred
+#   data/predictions/     frozen prediction parquets (§10.2a oracle)
+#   data/legacy_features/ Layer 2; out-of-band, Phase 6b only, may be absent
+# The negations keep the .gitkeep files so the structure stays documented.
+# ---------------------------------------------------------------------------
+/data/**
+!/data/**/
+!/data/**/.gitkeep
+
+# --- Model weights and checkpoints (carried out-of-band; see artifacts/) ----
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.onnx
+checkpoints/
+final_model/
+
+# --- Columnar / large data anywhere ----------------------------------------
+*.parquet
+*.arrow
+*.feather
+
+# --- Retrieval indexes (not built in this repo, but never commit one) ------
+*.faiss
+*.index
+
+# --- Generated logs, figures, scratch --------------------------------------
+*.log
+*_stdout.log
+*.png
+*.jpg
+*.pdf
+_cache/
+_cache*/
+
+# --- TREC harness outputs ---------------------------------------------------
+trec_eval_data/*.qrels
+trec_eval_data/*.results
+
+# ---------------------------------------------------------------------------
+# artifacts/ holds SMALL, TRACKED manifests and result tables. The global
+# ignores above (*.parquet, *.csv is NOT globally ignored) must not swallow
+# them, so re-include the tracked manifest formats explicitly.
+# ---------------------------------------------------------------------------
+!artifacts/**/*.json
+!artifacts/**/*.csv
+!artifacts/**/*.txt
+!artifacts/**/*.md
