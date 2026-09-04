@@ -1,0 +1,449 @@
+{
+  "manifest": "phase4_reproduction",
+  "gate": "MIGRATION_PLAN.md \u00a79 Phase 4 exit + \u00a710.2a",
+  "run_at": "2026-09-03",
+  "verdict": "PASS",
+  "checks_total": 26,
+  "checks_passed": 26,
+  "checks_failed": 0,
+  "minimum_loop_closed": true,
+  "oracle_comparison": {
+    "official_baseline": {
+      "oracle": "artifacts/oracle_predictions/official_baseline_dev_predictions.parquet",
+      "regenerated": "artifacts/results/phase4/official_baseline_dev_predictions.parquet",
+      "rows": 118231,
+      "keys_identical": true,
+      "oracle_score_sha256": "f8621406ae161112f3b74b8b7ee374275671b4f3deb261f6b434691420601898",
+      "regenerated_score_sha256": "f8621406ae161112f3b74b8b7ee374275671b4f3deb261f6b434691420601898",
+      "bit_identical": true,
+      "max_abs_score_diff": 0.0,
+      "exact_equal_rows": 118231
+    },
+    "v2_cross_encoder": {
+      "oracle": "artifacts/oracle_predictions/fulldev_epoch2_predictions.parquet",
+      "regenerated": "artifacts/results/phase3/ce_v2_dev_predictions.parquet",
+      "rows": 118231,
+      "keys_identical": true,
+      "oracle_score_sha256": "0ab41caa1f8b62bb11b6e47c8417bac1e0d9705a9739fd4aac2e910fa7d1c430",
+      "regenerated_score_sha256": "0ab41caa1f8b62bb11b6e47c8417bac1e0d9705a9739fd4aac2e910fa7d1c430",
+      "bit_identical": true,
+      "max_abs_score_diff": 0.0,
+      "exact_equal_rows": 118231
+    }
+  },
+  "checkpoints": {
+    "us": {
+      "path": "artifacts/checkpoints/official_baseline/task_1_ranking_model_us",
+      "model_sha256": "bd5e15b3099cf806c84e2147667f0286b3e709ddeac46e2800fb1ee5b406abfb"
+    },
+    "es": {
+      "path": "artifacts/checkpoints/official_baseline/task_1_ranking_model_es",
+      "model_sha256": "6a3174e1a6c0ece66e7e91182a22fad239c9cd23060a7b8abd94a89945b3fac6"
+    },
+    "jp": {
+      "path": "artifacts/checkpoints/official_baseline/task_1_ranking_model_jp",
+      "model_sha256": "3d4d868798123f6ff949120e2455aa74a75b55a36106d6ad04183cd601e85175"
+    }
+  },
+  "scorer": {
+    "path": "src/metrics/kdd_task1_ndcg.py",
+    "sha256": "6946489c8c09dc37cdb91b905dd5108e46e4070dbd1494b4ac4f972d20f41bc7",
+    "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic"
+  },
+  "bootstrap_config": {
+    "source": "scripts/eval_official_baseline.py:110-115 (from ca_eval_official_baseline.py)",
+    "n_bootstrap": 10000,
+    "seed": 42,
+    "rng": "numpy.random.RandomState(42)",
+    "pairing": "by query_id (per-query NDCG tables intersected on index)",
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "p_value": "min(1, 2*min(P(bs<=0), P(bs>=0)))",
+    "tie_tolerance": 1e-12,
+    "matches_task_spec": true
+  },
+  "test_split_touched": false,
+  "observed": {
+    "official_baseline": {
+      "model": "Amazon official baseline (reproduced)",
+      "ndcg_full": 0.852066,
+      "ndcg_at_20": 0.807127,
+      "ndcg_at_10": 0.735796,
+      "queries": 5071,
+      "rows": 118231,
+      "candidate_pool": "task1_small_v1",
+      "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic",
+      "locale": {
+        "us": {
+          "n": 3133,
+          "ndcg_full": 0.859064,
+          "ndcg_at_20": 0.834539,
+          "ndcg_at_10": 0.758205
+        },
+        "es": {
+          "n": 845,
+          "ndcg_full": 0.845779,
+          "ndcg_at_20": 0.78233,
+          "ndcg_at_10": 0.718834
+        },
+        "jp": {
+          "n": 1093,
+          "ndcg_full": 0.83687,
+          "ndcg_at_20": 0.747723,
+          "ndcg_at_10": 0.684677
+        }
+      }
+    },
+    "v2": {
+      "model": "V2 Cross-Encoder epoch_2",
+      "ndcg_full": 0.883443,
+      "ndcg_at_20": 0.845605,
+      "ndcg_at_10": 0.792383,
+      "queries": 5071,
+      "rows": 118231,
+      "candidate_pool": "task1_small_v1",
+      "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic",
+      "locale": {
+        "us": {
+          "n": 3133,
+          "ndcg_full": 0.8782,
+          "ndcg_at_20": 0.855827,
+          "ndcg_at_10": 0.793178
+        },
+        "es": {
+          "n": 845,
+          "ndcg_full": 0.894484,
+          "ndcg_at_20": 0.848554,
+          "ndcg_at_10": 0.808256
+        },
+        "jp": {
+          "n": 1093,
+          "ndcg_full": 0.889935,
+          "ndcg_at_20": 0.814023,
+          "ndcg_at_10": 0.777834
+        }
+      }
+    },
+    "global_bootstrap": {
+      "mean_delta": 0.03847804656522194,
+      "ci_95": [
+        0.034832700055146326,
+        0.042132992126204916
+      ],
+      "p_value": 0.0,
+      "n_queries": 5071,
+      "win": 3229,
+      "loss": 1696,
+      "tie": 146,
+      "n_bootstrap": 10000,
+      "seed": 42
+    },
+    "us_slice": {
+      "slice": "US locale only (product_locale == 'us'), competition-aligned frozen DEV",
+      "test_split_touched": false,
+      "models_retrained": false,
+      "score_sources": {
+        "official_baseline": "artifacts/results/phase4/official_baseline_dev_predictions.parquet",
+        "v2": "artifacts/results/phase3/ce_v2_dev_predictions.parquet"
+      },
+      "scorer": {
+        "module": "experiments/ranking_v2/kdd_task1_benchmark/scripts/kdd_task1_ndcg.py",
+        "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic"
+      },
+      "n_queries_us": 3133,
+      "n_queries_dev_total": 5071,
+      "sanity_check": {
+        "official": {
+          "observed": 0.834539,
+          "reference": 0.834539,
+          "abs_diff": 2.076809167972371e-07,
+          "pass": true
+        },
+        "v2": {
+          "observed": 0.855827,
+          "reference": 0.855827,
+          "abs_diff": 2.8657544515198197e-07,
+          "pass": true
+        }
+      },
+      "point_estimates": {
+        "ndcg_full": {
+          "official": 0.8590639660719538,
+          "v2": 0.8782002928003456
+        },
+        "ndcg_at_20": {
+          "official": 0.8345387923190832,
+          "v2": 0.8558272865754452
+        },
+        "ndcg_at_10": {
+          "official": 0.7582052429144973,
+          "v2": 0.7931778388904618
+        }
+      },
+      "delta_v2_minus_official": {
+        "ndcg_full": 0.019136326728391637,
+        "ndcg_at_20": 0.021288494256361996,
+        "ndcg_at_10": 0.03497259597596445
+      },
+      "paired_bootstrap_at20": {
+        "mean_delta": 0.021288494256361996,
+        "ci_95": [
+          0.01725483951478355,
+          0.02525999232170403
+        ],
+        "ci_crosses_zero": false,
+        "p_value": 0.0,
+        "n_queries": 3133,
+        "win": 1852,
+        "loss": 1160,
+        "tie": 121,
+        "n_bootstrap": 10000,
+        "seed": 42,
+        "ci_percentiles": [
+          2.5,
+          97.5
+        ],
+        "pairing": "by query_id",
+        "config_source": "scripts/ca_eval_official_baseline.py:110-115"
+      }
+    }
+  },
+  "checks": [
+    {
+      "scope": "official_baseline",
+      "metric": "ndcg_full@4dp",
+      "expected": 0.8521,
+      "observed": 0.8521,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "official_baseline",
+      "metric": "ndcg_at_20@4dp",
+      "expected": 0.8071,
+      "observed": 0.8071,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "official_baseline",
+      "metric": "ndcg_at_10@4dp",
+      "expected": 0.7358,
+      "observed": 0.7358,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "us_slice",
+      "metric": "n_queries",
+      "expected": 3133,
+      "observed": 3133,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "us_slice",
+      "metric": "official_ndcg_at_20",
+      "expected": 0.834539,
+      "observed": 0.834539,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "us_slice",
+      "metric": "v2_ndcg_at_20",
+      "expected": 0.855827,
+      "observed": 0.855827,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "delta",
+      "expected": 0.0385,
+      "observed": 0.0385,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "ci_lo",
+      "expected": 0.0348,
+      "observed": 0.0348,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "ci_hi",
+      "expected": 0.0421,
+      "observed": 0.0421,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "p_lt_0.0001",
+      "expected": true,
+      "observed": true,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "win",
+      "expected": 3229,
+      "observed": 3229,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "loss",
+      "expected": 1696,
+      "observed": 1696,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "tie",
+      "expected": 146,
+      "observed": 146,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "n_bootstrap",
+      "expected": 10000,
+      "observed": 10000,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_global",
+      "metric": "seed",
+      "expected": 42,
+      "observed": 42,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "delta",
+      "expected": 0.021288,
+      "observed": 0.021288,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "ci_lo",
+      "expected": 0.017255,
+      "observed": 0.017255,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "ci_hi",
+      "expected": 0.02526,
+      "observed": 0.02526,
+      "delta": 0.0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "p_lt_0.0001",
+      "expected": true,
+      "observed": true,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "win",
+      "expected": 1852,
+      "observed": 1852,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "loss",
+      "expected": 1160,
+      "observed": 1160,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "tie",
+      "expected": 121,
+      "observed": 121,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "n_bootstrap",
+      "expected": 10000,
+      "observed": 10000,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "bootstrap_us",
+      "metric": "seed",
+      "expected": 42,
+      "observed": 42,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "oracle",
+      "metric": "official_baseline.bit_identical",
+      "expected": true,
+      "observed": true,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    },
+    {
+      "scope": "oracle",
+      "metric": "v2_cross_encoder.bit_identical",
+      "expected": true,
+      "observed": true,
+      "delta": 0,
+      "tolerance": 0.0,
+      "PASS": true
+    }
+  ]
+}

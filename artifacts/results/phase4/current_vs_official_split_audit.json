@@ -1,0 +1,72 @@
+{
+  "question": "where do the current ~663K TRAIN and 5,071-query DEV come from?",
+  "answer": "both are carved from official Task 1 TRAIN (small_version==1, split=='train') by a query-level 85/15 split; the union is BIT-IDENTICAL to the official pool",
+  "current_train": {
+    "rows": 663407,
+    "queries": 28733
+  },
+  "current_dev": {
+    "rows": 118231,
+    "queries": 5071
+  },
+  "current_test_artifact": {
+    "rows": 336373,
+    "queries": 14496,
+    "note": "counts only; never evaluated"
+  },
+  "official_task1_train": {
+    "rows": 781638,
+    "queries": 33804
+  },
+  "identity_checks": {
+    "row_count_equal": true,
+    "query_count_equal": true,
+    "example_id_sets_identical": true,
+    "example_ids_only_in_current": 0,
+    "example_ids_only_in_official": 0,
+    "label_mismatches": 0,
+    "rows_with_small_version_not_1": 0,
+    "rows_with_split_not_train": 0,
+    "extra_pairs_added_beyond_official": 0
+  },
+  "split_disjointness": {
+    "train_dev_query_overlap": 0,
+    "train_test_query_overlap": 0,
+    "dev_test_query_overlap": 0
+  },
+  "cross_locale_leak": {
+    "query_ids_spanning_locales_in_task1": 0,
+    "conclusion": "IMPOSSIBLE by construction: no query_id spans locales in Task 1"
+  },
+  "product_overlap_train_dev": {
+    "shared_product_ids": 26128,
+    "note": "permitted; recorded for the record. Catalog items recur across queries."
+  },
+  "dev_candidate_pool_check": {
+    "dev_rows": 118231,
+    "official_rows_for_same_query_ids": 118231,
+    "row_counts_equal": true,
+    "example_id_sets_identical": true,
+    "dev_reconstructed_or_expanded": false,
+    "conclusion": "DEV candidate pairs ARE the raw official Task 1 pairs, unmodified"
+  },
+  "dev_candidates_per_query": {
+    "n_groups": 5071,
+    "mean": 23.3151,
+    "p50": 16.0,
+    "p90": 40.0,
+    "p95": 40.0,
+    "p99": 48.0,
+    "min": 8,
+    "max": 94,
+    "gt_40": 138,
+    "gt_40_pct": 2.7214
+  },
+  "dev_locale_queries": {
+    "us": 3133,
+    "jp": 1093,
+    "es": 845
+  },
+  "verdict": "current DEV is competition-aligned as-is; no reconstruction needed, no competition_dev_v1 required",
+  "test_split_touched": false
+}

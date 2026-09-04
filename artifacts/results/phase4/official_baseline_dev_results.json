@@ -1,0 +1,112 @@
+{
+  "evaluation_pool": "competition-aligned frozen DEV (== official Task 1 pairs)",
+  "rows": 118231,
+  "queries": 5071,
+  "test_split_touched": false,
+  "input": "query + product_title only (official baseline recipe)",
+  "official_baseline": {
+    "model": "Amazon official baseline (reproduced)",
+    "ndcg_full": 0.852066,
+    "ndcg_at_20": 0.807127,
+    "ndcg_at_10": 0.735796,
+    "queries": 5071,
+    "rows": 118231,
+    "candidate_pool": "task1_small_v1",
+    "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic",
+    "locale": {
+      "us": {
+        "n": 3133,
+        "ndcg_full": 0.859064,
+        "ndcg_at_20": 0.834539,
+        "ndcg_at_10": 0.758205
+      },
+      "es": {
+        "n": 845,
+        "ndcg_full": 0.845779,
+        "ndcg_at_20": 0.78233,
+        "ndcg_at_10": 0.718834
+      },
+      "jp": {
+        "n": 1093,
+        "ndcg_full": 0.83687,
+        "ndcg_at_20": 0.747723,
+        "ndcg_at_10": 0.684677
+      }
+    }
+  },
+  "v2": {
+    "model": "V2 Cross-Encoder epoch_2",
+    "ndcg_full": 0.883443,
+    "ndcg_at_20": 0.845605,
+    "ndcg_at_10": 0.792383,
+    "queries": 5071,
+    "rows": 118231,
+    "candidate_pool": "task1_small_v1",
+    "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic",
+    "locale": {
+      "us": {
+        "n": 3133,
+        "ndcg_full": 0.8782,
+        "ndcg_at_20": 0.855827,
+        "ndcg_at_10": 0.793178
+      },
+      "es": {
+        "n": 845,
+        "ndcg_full": 0.894484,
+        "ndcg_at_20": 0.848554,
+        "ndcg_at_10": 0.808256
+      },
+      "jp": {
+        "n": 1093,
+        "ndcg_full": 0.889935,
+        "ndcg_at_20": 0.814023,
+        "ndcg_at_10": 0.777834
+      }
+    }
+  },
+  "delta_v2_minus_official": {
+    "ndcg_full": 0.031377,
+    "ndcg_at_20": 0.038478,
+    "ndcg_at_10": 0.056587,
+    "by_locale_at_20": {
+      "us": 0.021288,
+      "es": 0.066224,
+      "jp": 0.0663
+    }
+  },
+  "paired_bootstrap_v2_minus_official_at20": {
+    "mean_delta": 0.03847804656522194,
+    "ci_95": [
+      0.034832700055146326,
+      0.042132992126204916
+    ],
+    "p_value": 0.0,
+    "n_queries": 5071,
+    "win": 3229,
+    "loss": 1696,
+    "tie": 146,
+    "n_bootstrap": 10000,
+    "seed": 42
+  },
+  "inference_runtime": {
+    "us": {
+      "rows": 63280,
+      "seconds": 34.9,
+      "rows_per_sec": 1812.2,
+      "arch": "CrossEncoder"
+    },
+    "es": {
+      "rows": 23160,
+      "seconds": 33.0,
+      "rows_per_sec": 701.6,
+      "arch": "bi-encoder cosine"
+    },
+    "jp": {
+      "rows": 31791,
+      "seconds": 50.7,
+      "rows_per_sec": 626.5,
+      "arch": "bi-encoder cosine"
+    }
+  },
+  "total_seconds": 120.3
+}

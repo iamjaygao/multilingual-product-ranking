@@ -1,0 +1,139 @@
+{
+  "metric_parity": "PASS",
+  "tolerance": 1e-10,
+  "reference_implementation": "independent pure-Python, no shared code, no numpy",
+  "terrier_status": "NOT_RUN -- no JRE on this machine and installing one was out of scope",
+  "official_gain_source": "amazon-science/esci-data ranking/train.py lines 49-53, esci_label2gain = {'E':1.0,'S':0.1,'C':0.01,'I':0.0}",
+  "gains_used": {
+    "E": 1.0,
+    "S": 0.1,
+    "C": 0.01,
+    "I": 0.0
+  },
+  "tie_rule": "score desc, then product_id asc (both implementations)",
+  "idcg_zero_rule": "query undefined/excluded; both implementations must agree",
+  "cases_passed": 13,
+  "cases_total": 13,
+  "cases": [
+    {
+      "case": "1 perfect E>S>C>I",
+      "k": 20,
+      "n_candidates": 4,
+      "reference": 1.0,
+      "production": 1.0,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": "must be exactly 1.0"
+    },
+    {
+      "case": "1 perfect E>S>C>I (full)",
+      "k": "full",
+      "n_candidates": 4,
+      "reference": 1.0,
+      "production": 1.0,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "2 swap E<->S",
+      "k": 20,
+      "n_candidates": 2,
+      "reference": 0.687550167778977,
+      "production": 0.687550167778977,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "3 swap S<->C",
+      "k": 20,
+      "n_candidates": 2,
+      "reference": 0.687550167778977,
+      "production": 0.687550167778977,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "4 all irrelevant (IDCG=0)",
+      "k": 20,
+      "n_candidates": 3,
+      "reference": null,
+      "production": null,
+      "abs_delta": null,
+      "pass": true,
+      "note": "IDCG==0 -> undefined; both must agree"
+    },
+    {
+      "case": "5 fewer than 20 candidates",
+      "k": 20,
+      "n_candidates": 3,
+      "reference": 1.0,
+      "production": 1.0,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "6 more than 20 candidates",
+      "k": 20,
+      "n_candidates": 25,
+      "reference": 0.5812007498961529,
+      "production": 0.5812007498961529,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "6 more than 20 candidates (full)",
+      "k": "full",
+      "n_candidates": 25,
+      "reference": 0.7362370523549033,
+      "production": 0.7362370523549033,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "7 all scores tied",
+      "k": 20,
+      "n_candidates": 4,
+      "reference": 0.9870926875333095,
+      "production": 0.9870926875333095,
+      "abs_delta": 0.0,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "8 IDCG=0 at full cutoff",
+      "k": "full",
+      "n_candidates": 2,
+      "reference": null,
+      "production": null,
+      "abs_delta": null,
+      "pass": true,
+      "note": ""
+    },
+    {
+      "case": "2 hand-computed value",
+      "pass": true,
+      "expected": 0.687550167778977,
+      "production": 0.687550167778977,
+      "abs_delta": 0.0
+    },
+    {
+      "case": "3 hand-computed value",
+      "pass": true,
+      "expected": 0.687550167778977,
+      "production": 0.687550167778977,
+      "abs_delta": 0.0
+    },
+    {
+      "case": "randomised 300 queries x {10,20,full}",
+      "pass": true,
+      "disagreements": 0,
+      "max_abs_delta": 1.1102230246251565e-16
+    }
+  ]
+}

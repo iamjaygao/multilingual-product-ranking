@@ -1,0 +1,69 @@
+{
+  "slice": "US locale only (product_locale == 'us'), competition-aligned frozen DEV",
+  "test_split_touched": false,
+  "models_retrained": false,
+  "score_sources": {
+    "official_baseline": "artifacts/results/phase4/official_baseline_dev_predictions.parquet",
+    "v2": "artifacts/results/phase3/ce_v2_dev_predictions.parquet"
+  },
+  "scorer": {
+    "module": "experiments/ranking_v2/kdd_task1_benchmark/scripts/kdd_task1_ndcg.py",
+    "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic"
+  },
+  "n_queries_us": 3133,
+  "n_queries_dev_total": 5071,
+  "sanity_check": {
+    "official": {
+      "observed": 0.834539,
+      "reference": 0.834539,
+      "abs_diff": 2.076809167972371e-07,
+      "pass": true
+    },
+    "v2": {
+      "observed": 0.855827,
+      "reference": 0.855827,
+      "abs_diff": 2.8657544515198197e-07,
+      "pass": true
+    }
+  },
+  "point_estimates": {
+    "ndcg_full": {
+      "official": 0.8590639660719538,
+      "v2": 0.8782002928003456
+    },
+    "ndcg_at_20": {
+      "official": 0.8345387923190832,
+      "v2": 0.8558272865754452
+    },
+    "ndcg_at_10": {
+      "official": 0.7582052429144973,
+      "v2": 0.7931778388904618
+    }
+  },
+  "delta_v2_minus_official": {
+    "ndcg_full": 0.019136326728391637,
+    "ndcg_at_20": 0.021288494256361996,
+    "ndcg_at_10": 0.03497259597596445
+  },
+  "paired_bootstrap_at20": {
+    "mean_delta": 0.021288494256361996,
+    "ci_95": [
+      0.01725483951478355,
+      0.02525999232170403
+    ],
+    "ci_crosses_zero": false,
+    "p_value": 0.0,
+    "n_queries": 3133,
+    "win": 1852,
+    "loss": 1160,
+    "tie": 121,
+    "n_bootstrap": 10000,
+    "seed": 42,
+    "ci_percentiles": [
+      2.5,
+      97.5
+    ],
+    "pairing": "by query_id",
+    "config_source": "scripts/ca_eval_official_baseline.py:110-115"
+  }
+}

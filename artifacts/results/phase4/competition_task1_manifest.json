@@ -1,0 +1,155 @@
+{
+  "name": "competition_task1_v1",
+  "definition": "examples[small_version == 1] -- official Task 1 filter, nothing else",
+  "candidate_source": "official judged query-product pairs ONLY",
+  "explicitly_excluded": [
+    "BM25 candidates",
+    "Two-Tower candidates",
+    "union candidates",
+    "retrieved negatives",
+    "hard negatives",
+    "any retrieval pool"
+  ],
+  "raw_source_paths": {
+    "examples": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_examples.parquet",
+    "products": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_products.parquet"
+  },
+  "raw_source_sha256": {
+    "examples": "4a735b693b4a424a6fc67f5be6e4c811495c488bbf66d02a602d308b2744263a",
+    "products": "25124442d064d64b26f74082d6fa09438d679efc0c183cf28d19064a2b65a265"
+  },
+  "examples_total_rows": 2621288,
+  "task1_rows": 1118011,
+  "task1_queries": 48300,
+  "task1_unique_product_id": 879141,
+  "task1_unique_product_id_locale": 883716,
+  "locale_rows": {
+    "us": 601354,
+    "jp": 297883,
+    "es": 218774
+  },
+  "locale_queries": {
+    "us": 29844,
+    "jp": 10407,
+    "es": 8049
+  },
+  "grouping_key_check": {
+    "query_ids_spanning_multiple_locales": 0,
+    "max_locales_per_query_id": 1,
+    "conclusion": "query_id alone is a SAFE grouping key: it never spans locales, so groupby(query_id) == groupby([query_id, product_locale])"
+  },
+  "duplicates": {
+    "dup_query_id_product_id": 0,
+    "dup_query_id_locale_product_id": 0,
+    "example_id_unique": true,
+    "products_table_key_unique": true,
+    "products_rows": 1814924
+  },
+  "candidates_per_query_by_query_id": {
+    "n_groups": 48300,
+    "mean": 23.1472,
+    "p50": 16.0,
+    "p90": 40.0,
+    "p95": 40.0,
+    "p99": 48.0,
+    "min": 8,
+    "max": 188,
+    "gt_40": 1219,
+    "gt_40_pct": 2.5238
+  },
+  "candidates_per_query_by_query_id_locale": {
+    "n_groups": 48300,
+    "mean": 23.1472,
+    "p50": 16.0,
+    "p90": 40.0,
+    "p95": 40.0,
+    "p99": 48.0,
+    "min": 8,
+    "max": 188,
+    "gt_40": 1219,
+    "gt_40_pct": 2.5238
+  },
+  "official_gain": {
+    "E": 1.0,
+    "S": 0.1,
+    "C": 0.01,
+    "I": 0.0
+  },
+  "official_gain_source": "amazon-science/esci-data ranking/train.py lines 49-53",
+  "splits": {
+    "train": {
+      "rows": 781638,
+      "queries": 33804,
+      "locale_rows": {
+        "us": 419653,
+        "jp": 209094,
+        "es": 152891
+      },
+      "locale_queries": {
+        "us": 20888,
+        "jp": 7284,
+        "es": 5632
+      },
+      "candidates_per_query": {
+        "n_groups": 33804,
+        "mean": 23.1226,
+        "p50": 16.0,
+        "p90": 40.0,
+        "p95": 40.0,
+        "p99": 48.0,
+        "min": 8,
+        "max": 188,
+        "gt_40": 856,
+        "gt_40_pct": 2.5322
+      },
+      "label_counts": {
+        "E": 341120,
+        "S": 267928,
+        "I": 132042,
+        "C": 40548
+      },
+      "note": ""
+    },
+    "test": {
+      "rows": 336373,
+      "queries": 14496,
+      "locale_rows": {
+        "us": 181701,
+        "jp": 88789,
+        "es": 65883
+      },
+      "locale_queries": {
+        "us": 8956,
+        "jp": 3123,
+        "es": 2417
+      },
+      "candidates_per_query": {
+        "n_groups": 14496,
+        "mean": 23.2045,
+        "p50": 16.0,
+        "p90": 40.0,
+        "p95": 40.0,
+        "p99": 48.0,
+        "min": 8,
+        "max": 95,
+        "gt_40": 363,
+        "gt_40_pct": 2.5041
+      },
+      "label_counts": {
+        "E": 148379,
+        "S": 115576,
+        "I": 55384,
+        "C": 17034
+      },
+      "note": "TEST: counts/metadata only. Labels were NOT used for evaluation or selection."
+    }
+  },
+  "sha256_query_ids": {
+    "train": "3468ba808aa4ff2a484d44d73b95711eca0d5b8c89d1ac457281f35026732695",
+    "test": "7bdc9ed5e131401be6e952e48c0569b0458fadfbad6150477cc2f876f83f11f3"
+  },
+  "sha256_pairs": {
+    "train": "161ac60f54629a18a2317d3ca9714ab3c4e8a1fd4c6224121e12e99fc8a0a4cf",
+    "test": "1e5a5ac9862e6a793862a53ad28f075388a2ed3ded1bdaa916abde6b6c995340"
+  }
+}
