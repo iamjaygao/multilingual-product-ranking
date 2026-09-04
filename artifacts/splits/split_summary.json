@@ -1,0 +1,20 @@
+{
+  "seed": 42,
+  "dev_ratio": 0.1,
+  "locale": "us",
+  "n_unique_queries_total": 20888,
+  "n_train_queries": 18800,
+  "n_dev_queries": 2088,
+  "n_train_pairs": 297112,
+  "n_dev_pairs": 32335,
+  "disjoint_verified": true,
+  "source_filter": {
+    "small_version": 1,
+    "split": "train",
+    "product_locale": "us",
+    "esci_label": [
+      "E",
+      "S"
+    ]
+  }
+}

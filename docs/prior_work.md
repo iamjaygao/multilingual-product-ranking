@@ -236,16 +236,34 @@ reproduction, never by the minimum loop, and must never be regenerated with V2
 (`MIGRATION_PLAN.md` §10.3).
 
 <a id="two-tower-v2"></a>
-### 2.4b Two-Tower V2 — not yet in this repository
+### 2.4b Two-Tower V2 — migrated (Phase 6a)
 
-`retrieval/two_tower_training.py`, `scripts/train_two_tower_v2.py`,
-`experiments/two_tower_v2/build_query_split.py` in the source repo.
+`src/retrieval/two_tower_training.py`, `scripts/train_two_tower_v2.py`,
+`src/data/build_query_split.py`.
 
 **Sole author: Jian Gao** (`0d62195`, 2026-09-02, 100% blame, zero group
-imports). It is scheduled for **Phase 6a**, an optional add-on outside the
-minimum viable loop (`MIGRATION_PLAN.md` §9, §10.1), so it is not present yet.
-Reports that cite its line numbers link here rather than to a path that does not
-exist. Its V0 predecessor is §2.4 above.
+imports). Migrated in **Phase 6a**; the query split regenerates deterministically
+to 18,800 train / 2,088 dev queries, byte-identical to the source repo's lists.
+
+V2 is a **clean-room replacement** for V0, not a derivative of it. It shares V0's
+*recipe* — same base encoder, same loss, same batch size, same positive-label
+definition — deliberately, so that the V1 fix (warmup ratio, fixed seed,
+query-level split, a real dev retrieval evaluator) could be attributed to that
+fix alone. Sharing a recipe is not sharing code: no line of `retrieval/two_tower.py`
+or `scripts/train_two_tower.py` was carried over, and neither file is in this
+repository. **V0 remains gyuszix's work (§2.4); V2 is mine.**
+
+⚠️ **V2 is trained on US-locale data only** — 0 es and 0 jp training pairs,
+enforced by three separate filters (the query split's `LOCALE = "us"`, the
+`locale="us"` default in `load_positive_pairs`, and a us-only dev evaluator
+corpus). It is a monolingual English model. Every es/jp number reported for it is
+zero-shot transfer, and a weak jp score is the expected consequence of that scope
+rather than a finding about the architecture. Each of the three modules carries
+this warning in its docstring; the evidence is in
+[`retrieval_scope_audit.md`](reports/retrieval_scope_audit.md) §1.
+
+The V2 **checkpoint** was not carried over — Phase 6a migrates code and the split
+only. Training it is a separate, optional step.
 
 <a id="bm25"></a>
 ## 2.5 `retrieval/bm25.py` — BM25 module

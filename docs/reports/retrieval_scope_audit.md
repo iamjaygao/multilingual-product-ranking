@@ -31,30 +31,30 @@ Two Two-Tower generations exist. **Both apply a hard US-only filter, in code, no
 
 | Line | Code | Effect |
 |---|---|---|
-| [`retrieval/two_tower_training.py:40-41`](../prior_work.md#two-tower-v2) | `def load_positive_pairs(..., locale="us", small_version=1, split="train", labels=("E","S"))` | US-only is the **default argument** |
-| [`retrieval/two_tower_training.py:48-51`](../prior_work.md#two-tower-v2) | `df = df[df["small_version"]==small_version]` … `df = df[df["product_locale"] == locale]` … | filter actually applied |
-| [`scripts/train_two_tower_v2.py:85-86`](../prior_work.md#two-tower-v2) | `load_positive_pairs(EXAMPLES_PATH, PRODUCTS_PATH, train_queries, labels=cfg[...]["labels"])` | **`locale` is not passed** → default `"us"` is used |
+| [`src/retrieval/two_tower_training.py:71-72`](../../src/retrieval/two_tower_training.py#L71-L72) | `def load_positive_pairs(..., locale="us", small_version=1, split="train", labels=("E","S"))` | US-only is the **default argument** |
+| [`src/retrieval/two_tower_training.py:79-82`](../../src/retrieval/two_tower_training.py#L79-L82) | `df = df[df["small_version"]==small_version]` … `df = df[df["product_locale"] == locale]` … | filter actually applied |
+| [`scripts/train_two_tower_v2.py:118-119`](../../scripts/train_two_tower_v2.py#L118-L119) | `load_positive_pairs(EXAMPLES_PATH, PRODUCTS_PATH, train_queries, labels=cfg[...]["labels"])` | **`locale` is not passed** → default `"us"` is used |
 
 Note the call at `train_two_tower_v2.py:85-86` overrides only `labels`; `locale`, `small_version`
 and `split` fall through to the defaults at `two_tower_training.py:40-41`. The declared config at
-[`scripts/train_two_tower_v2.py:52`](../prior_work.md#two-tower-v2)
+[`scripts/train_two_tower_v2.py:85`](../../scripts/train_two_tower_v2.py#L85)
 (`"positive_label_definition": {"labels": ["E","S"], "locale": "us", "small_version": 1, "split": "train"}`)
 is **descriptive metadata only** — it is written to `config.json` but never passed into the loader.
 It happens to agree with the defaults, so the recorded config is accurate; it is not what enforces
 the filter.
 
 The query universe the training pairs are drawn from is itself US-only, one layer earlier:
-[`experiments/two_tower_v2/build_query_split.py:22`](../prior_work.md#two-tower-v2)
+[`src/data/build_query_split.py:56`](../../src/data/build_query_split.py#L56)
 (`LOCALE = "us"`) and `:30-33` (`small_version==1`, `split=="train"`,
 `product_locale==LOCALE`, `esci_label in ["E","S"]`). So es/jp queries never even enter the
 train/dev query lists.
 
 The V1 dev-time evaluator is also US-only:
-[`retrieval/two_tower_training.py:97`](../prior_work.md#two-tower-v2)
+[`src/retrieval/two_tower_training.py:128`](../../src/retrieval/two_tower_training.py#L128)
 (`df_pr_us = df_products[df_products["product_locale"] == "us"]`) and `:109-112` (filler
 distractors sampled from `title_lookup`, which is built from `df_pr_us`). Model selection —
 `metric_for_best_model = "dev_cosine_recall@100"`
-([`scripts/train_two_tower_v2.py:55`](../prior_work.md#two-tower-v2)) — therefore
+([`scripts/train_two_tower_v2.py:88`](../../scripts/train_two_tower_v2.py#L88)) — therefore
 never saw an es or jp query either.
 
 ## 1.2 es / jp share of the training set: **0 pairs, 0.00%**
@@ -80,7 +80,7 @@ Persisted corroboration:
 
 Declared identically in both generations:
 [`scripts/train_two_tower.py:22`](../prior_work.md#two-tower-v0) and
-[`scripts/train_two_tower_v2.py:37`](../prior_work.md#two-tower-v2) —
+[`scripts/train_two_tower_v2.py:70`](../../scripts/train_two_tower_v2.py#L70) —
 `MODEL_NAME = "sentence-transformers/msmarco-distilbert-base-v3"`.
 
 Confirmed on the persisted artifact rather than from the name:
@@ -119,9 +119,9 @@ One `SentenceTransformer` object is instantiated and both sides of the pair pass
   `model = SentenceTransformer(MODEL_NAME)`; `train_loss = losses.MultipleNegativesRankingLoss(model=model)`.
   Pairs are `InputExample(texts=[row["query"], row["item_text"]])`
   ([`:62-64`](../prior_work.md#two-tower-v0)).
-- V1: [`scripts/train_two_tower_v2.py:120-121`](../prior_work.md#two-tower-v2) —
+- V1: [`scripts/train_two_tower_v2.py:153-154`](../../scripts/train_two_tower_v2.py#L153-L154) —
   same construction; dataset columns `anchor`/`positive`
-  ([`:91-94`](../prior_work.md#two-tower-v2)).
+  ([`:124-126`](../../scripts/train_two_tower_v2.py#L124-L126)).
 
 There is no second encoder anywhere. At serving time the same single model encodes both sides:
 [`retrieval/two_tower.py:14`](../prior_work.md#two-tower-v0)
@@ -151,7 +151,7 @@ interview.
 
 **The V1 fix changed the training recipe. It did not change the training locale scope.**
 The header comment at
-[`scripts/train_two_tower_v2.py:8-11`](../prior_work.md#two-tower-v2) states this
+[`scripts/train_two_tower_v2.py:9`](../../scripts/train_two_tower_v2.py#L9) states this
 explicitly ("Everything else … is held identical to V0"), and the code confirms it.
 
 ---
