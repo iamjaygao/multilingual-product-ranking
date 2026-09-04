@@ -68,5 +68,7 @@
     "es": 845
   },
   "verdict": "current DEV is competition-aligned as-is; no reconstruction needed, no competition_dev_v1 required",
-  "test_split_touched": false
+  "test_split_touched": false,
+  "candidate_pool": "task1_small_v1",
+  "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic"
 }

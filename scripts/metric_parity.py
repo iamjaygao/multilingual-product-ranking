@@ -26,6 +26,7 @@ import sys
 import pandas as pd
 
 from src import paths
+from src.metrics.binding import write_report
 from src.ranking.cross_encoder import load_task1_scorer
 
 ROOT = str(paths.REPO_ROOT)
@@ -169,8 +170,7 @@ def main():
         "cases_passed": n_pass, "cases_total": len(CASES), "cases": CASES,
     }
     os.makedirs(OUT, exist_ok=True)
-    json.dump(payload, open(os.path.join(OUT, "metric_parity_results.json"), "w"),
-              indent=2, default=str)
+    write_report(payload, os.path.join(OUT, "metric_parity_results.json"))
     print(f"\n{n_pass}/{len(CASES)} checks passed -> metric_parity = {verdict}")
     print("wrote experiments/competition_alignment/metric_parity_results.json")
     sys.exit(0 if verdict == "PASS" else 2)

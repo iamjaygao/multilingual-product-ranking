@@ -1,7 +1,7 @@
 # US-locale paired bootstrap — V2 Cross-Encoder vs reproduced Amazon official baseline
 
-Artifacts: [`us_slice_bootstrap.json`](us_slice_bootstrap.json),
-[`run_us_slice_bootstrap.py`](run_us_slice_bootstrap.py)
+Artifacts: [`us_slice_bootstrap.json`](../../artifacts/results/phase4/us_slice_bootstrap/us_slice_bootstrap.json),
+[`run_us_slice_bootstrap.py`](../../scripts/us_slice_bootstrap.py)
 
 ## Why US only
 

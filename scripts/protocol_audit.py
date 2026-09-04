@@ -14,6 +14,7 @@ import numpy as np
 import pandas as pd
 
 from src import paths
+from src.metrics.binding import write_report
 from src.data.task1_common import load_split
 
 ROOT = str(paths.REPO_ROOT)
@@ -105,8 +106,7 @@ def main():
         man["sha256_pairs"][s] = hashlib.sha256(
             ",".join(np.sort(pk.values)).encode()).hexdigest()
     os.makedirs(OUT, exist_ok=True)
-    json.dump(man, open(os.path.join(OUT, "competition_task1_manifest.json"), "w"),
-              indent=2, default=str)
+    write_report(man, os.path.join(OUT, "competition_task1_manifest.json"))
     print("wrote competition_task1_manifest.json")
 
     # ---------------- current_vs_official_split_audit.json (§7) ----------------

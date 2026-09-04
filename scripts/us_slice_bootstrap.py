@@ -19,6 +19,7 @@ import numpy as np
 import pandas as pd
 
 from src import paths
+from src.metrics.binding import write_report
 from src.ranking.cross_encoder import load_task1_scorer
 
 ROOT = str(paths.REPO_ROOT)
@@ -124,7 +125,8 @@ def main():
             "config_source": "scripts/ca_eval_official_baseline.py:110-115"},
     }
     os.makedirs(OUT, exist_ok=True)
-    json.dump(payload, open(os.path.join(OUT, "us_slice_bootstrap.json"), "w"), indent=2)
+    # §13.2 -- the only sanctioned writer; refuses an unbound payload.
+    write_report(payload, os.path.join(OUT, "us_slice_bootstrap.json"))
 
     print(f"\nUS queries: {len(d)}")
     print(f"@20  official {points['ndcg_at_20']['official']:.4f}  v2 {points['ndcg_at_20']['v2']:.4f}  "

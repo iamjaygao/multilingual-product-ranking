@@ -21,40 +21,40 @@ Two Two-Tower generations exist. **Both apply a hard US-only filter, in code, no
 
 | Line | Code | Effect |
 |---|---|---|
-| [`scripts/train_two_tower.py:24`](../../scripts/train_two_tower.py#L24) | `LOCALE = "us"` | module constant |
-| [`scripts/train_two_tower.py:39`](../../scripts/train_two_tower.py#L39) | `df = df[df["small_version"] == 1]` | Task-1 subset |
-| [`scripts/train_two_tower.py:40`](../../scripts/train_two_tower.py#L40) | `df = df[df["split"] == "train"]` | train split |
-| [`scripts/train_two_tower.py:41`](../../scripts/train_two_tower.py#L41) | `df = df[df["product_locale"] == LOCALE]` | **es/jp rows dropped** |
-| [`scripts/train_two_tower.py:45`](../../scripts/train_two_tower.py#L45) | `df = df[df["esci_label"].isin(["E", "S"])]` | E/S positives |
+| [`scripts/train_two_tower.py:24`](../prior_work.md#two-tower-v0) | `LOCALE = "us"` | module constant |
+| [`scripts/train_two_tower.py:39`](../prior_work.md#two-tower-v0) | `df = df[df["small_version"] == 1]` | Task-1 subset |
+| [`scripts/train_two_tower.py:40`](../prior_work.md#two-tower-v0) | `df = df[df["split"] == "train"]` | train split |
+| [`scripts/train_two_tower.py:41`](../prior_work.md#two-tower-v0) | `df = df[df["product_locale"] == LOCALE]` | **es/jp rows dropped** |
+| [`scripts/train_two_tower.py:45`](../prior_work.md#two-tower-v0) | `df = df[df["esci_label"].isin(["E", "S"])]` | E/S positives |
 
 **V1** — `scripts/train_two_tower_v2.py`, via the shared loader:
 
 | Line | Code | Effect |
 |---|---|---|
-| [`retrieval/two_tower_training.py:40-41`](../../retrieval/two_tower_training.py#L40-L41) | `def load_positive_pairs(..., locale="us", small_version=1, split="train", labels=("E","S"))` | US-only is the **default argument** |
-| [`retrieval/two_tower_training.py:48-51`](../../retrieval/two_tower_training.py#L48-L51) | `df = df[df["small_version"]==small_version]` … `df = df[df["product_locale"] == locale]` … | filter actually applied |
-| [`scripts/train_two_tower_v2.py:85-86`](../../scripts/train_two_tower_v2.py#L85-L86) | `load_positive_pairs(EXAMPLES_PATH, PRODUCTS_PATH, train_queries, labels=cfg[...]["labels"])` | **`locale` is not passed** → default `"us"` is used |
+| [`retrieval/two_tower_training.py:40-41`](../prior_work.md#two-tower-v2) | `def load_positive_pairs(..., locale="us", small_version=1, split="train", labels=("E","S"))` | US-only is the **default argument** |
+| [`retrieval/two_tower_training.py:48-51`](../prior_work.md#two-tower-v2) | `df = df[df["small_version"]==small_version]` … `df = df[df["product_locale"] == locale]` … | filter actually applied |
+| [`scripts/train_two_tower_v2.py:85-86`](../prior_work.md#two-tower-v2) | `load_positive_pairs(EXAMPLES_PATH, PRODUCTS_PATH, train_queries, labels=cfg[...]["labels"])` | **`locale` is not passed** → default `"us"` is used |
 
 Note the call at `train_two_tower_v2.py:85-86` overrides only `labels`; `locale`, `small_version`
 and `split` fall through to the defaults at `two_tower_training.py:40-41`. The declared config at
-[`scripts/train_two_tower_v2.py:52`](../../scripts/train_two_tower_v2.py#L52)
+[`scripts/train_two_tower_v2.py:52`](../prior_work.md#two-tower-v2)
 (`"positive_label_definition": {"labels": ["E","S"], "locale": "us", "small_version": 1, "split": "train"}`)
 is **descriptive metadata only** — it is written to `config.json` but never passed into the loader.
 It happens to agree with the defaults, so the recorded config is accurate; it is not what enforces
 the filter.
 
 The query universe the training pairs are drawn from is itself US-only, one layer earlier:
-[`experiments/two_tower_v2/build_query_split.py:22`](../two_tower_v2/build_query_split.py#L22)
+[`experiments/two_tower_v2/build_query_split.py:22`](../prior_work.md#two-tower-v2)
 (`LOCALE = "us"`) and `:30-33` (`small_version==1`, `split=="train"`,
 `product_locale==LOCALE`, `esci_label in ["E","S"]`). So es/jp queries never even enter the
 train/dev query lists.
 
 The V1 dev-time evaluator is also US-only:
-[`retrieval/two_tower_training.py:97`](../../retrieval/two_tower_training.py#L97)
+[`retrieval/two_tower_training.py:97`](../prior_work.md#two-tower-v2)
 (`df_pr_us = df_products[df_products["product_locale"] == "us"]`) and `:109-112` (filler
 distractors sampled from `title_lookup`, which is built from `df_pr_us`). Model selection —
 `metric_for_best_model = "dev_cosine_recall@100"`
-([`scripts/train_two_tower_v2.py:55`](../../scripts/train_two_tower_v2.py#L55)) — therefore
+([`scripts/train_two_tower_v2.py:55`](../prior_work.md#two-tower-v2)) — therefore
 never saw an es or jp query either.
 
 ## 1.2 es / jp share of the training set: **0 pairs, 0.00%**
@@ -65,11 +65,11 @@ construction.
 
 Persisted corroboration:
 
-- V1: [`experiments/two_tower_v2/splits/split_summary.json`](../two_tower_v2/splits/split_summary.json) —
+- V1: [`experiments/two_tower_v2/splits/split_summary.json`](two_tower_v2/FINAL_REPORT.md) —
   `"locale": "us"`, `"source_filter": {"small_version": 1, "split": "train", "product_locale": "us", "esci_label": ["E","S"]}`,
   `n_unique_queries_total: 20888`, `n_train_queries: 18800`, `n_train_pairs: 297112`,
   `n_dev_queries: 2088`, `n_dev_pairs: 32335`.
-- V0: [`experiments/two_tower_v2/baseline/baseline_config.json`](../two_tower_v2/baseline/baseline_config.json) —
+- V0: [`experiments/two_tower_v2/baseline/baseline_config.json`](two_tower_v2/baseline.md) —
   `training.positive_label_definition = {"labels": ["E","S"], "locale": "us", "small_version": 1, "split": "train"}`,
   `num_training_pairs: 329447`. Its `_provenance` field states this was recorded by reading
   `scripts/train_two_tower.py` at commit `9b173e9`, not re-derived.
@@ -79,8 +79,8 @@ Persisted corroboration:
 ## 1.3 Encoder identity — `sentence-transformers/msmarco-distilbert-base-v3`, monolingual English
 
 Declared identically in both generations:
-[`scripts/train_two_tower.py:22`](../../scripts/train_two_tower.py#L22) and
-[`scripts/train_two_tower_v2.py:37`](../../scripts/train_two_tower_v2.py#L37) —
+[`scripts/train_two_tower.py:22`](../prior_work.md#two-tower-v0) and
+[`scripts/train_two_tower_v2.py:37`](../prior_work.md#two-tower-v2) —
 `MODEL_NAME = "sentence-transformers/msmarco-distilbert-base-v3"`.
 
 Confirmed on the persisted artifact rather than from the name:
@@ -115,16 +115,16 @@ the same kind of failure and should not be described with one phrase.
 
 One `SentenceTransformer` object is instantiated and both sides of the pair pass through it:
 
-- V0: [`scripts/train_two_tower.py:73-74`](../../scripts/train_two_tower.py#L73-L74) —
+- V0: [`scripts/train_two_tower.py:73-74`](../prior_work.md#two-tower-v0) —
   `model = SentenceTransformer(MODEL_NAME)`; `train_loss = losses.MultipleNegativesRankingLoss(model=model)`.
   Pairs are `InputExample(texts=[row["query"], row["item_text"]])`
-  ([`:62-64`](../../scripts/train_two_tower.py#L62-L64)).
-- V1: [`scripts/train_two_tower_v2.py:120-121`](../../scripts/train_two_tower_v2.py#L120-L121) —
+  ([`:62-64`](../prior_work.md#two-tower-v0)).
+- V1: [`scripts/train_two_tower_v2.py:120-121`](../prior_work.md#two-tower-v2) —
   same construction; dataset columns `anchor`/`positive`
-  ([`:91-94`](../../scripts/train_two_tower_v2.py#L91-L94)).
+  ([`:91-94`](../prior_work.md#two-tower-v2)).
 
 There is no second encoder anywhere. At serving time the same single model encodes both sides:
-[`retrieval/two_tower.py:14`](../../retrieval/two_tower.py#L14)
+[`retrieval/two_tower.py:14`](../prior_work.md#two-tower-v0)
 (`MODEL_NAME = f'{ROOT_DIR}/models/two_tower_finetuned'`), `:84`, `:182`, `:236`.
 
 **"Two-Tower" is a naming convention here, not an architecture claim** — it is one shared-weight
@@ -151,7 +151,7 @@ interview.
 
 **The V1 fix changed the training recipe. It did not change the training locale scope.**
 The header comment at
-[`scripts/train_two_tower_v2.py:8-11`](../../scripts/train_two_tower_v2.py#L8-L11) states this
+[`scripts/train_two_tower_v2.py:8-11`](../prior_work.md#two-tower-v2) states this
 explicitly ("Everything else … is held identical to V0"), and the code confirms it.
 
 ---
@@ -162,9 +162,9 @@ explicitly ("Everything else … is held identical to V0"), and the code confirm
 
 | # | Builder | Corpus scope | On disk? | Feeds which reported number |
 |---|---|---|---|---|
-| **B-1** | [`retrieval/bm25.py:93-116`](../../retrieval/bm25.py#L93-L116) `build_global_bm25_index`, called by [`scripts/build_indices.py:15,23`](../../scripts/build_indices.py#L15-L23) | **ALL locales mixed**, whole products parquet, no filter | **NO** (see §2.3) | none |
-| **B-2** | same function, called by [`scripts/build_full_catalog_indices.py:51,57`](../../scripts/build_full_catalog_indices.py#L51-L57) after `df_pr[df_pr['product_locale'] == LOCALE]` | **US only**, 1,215,854 products | yes, `output/full_retrieval/bm25s_index_us` | Recall@100 / RRF@100 (§3.2) |
-| **B-3** | [`retrieval/bm25.py:13-46`](../../retrieval/bm25.py#L13-L46) `_score_single_group`, driven by `compute_bm25_scores` `:59-91`; and its transcription at [`experiments/ranking_v2/kdd_task1_benchmark/scripts/build_task1_benchmark.py:68-99`](../ranking_v2/kdd_task1_benchmark/scripts/build_task1_benchmark.py#L68-L99) | **one index per query**, over that query's own candidate set only | n/a (scores only) | NDCG 0.8198 (§3.1) |
+| **B-1** | [`retrieval/bm25.py:93-116`](../prior_work.md#bm25) `build_global_bm25_index`, called by [`scripts/build_indices.py:15,23`](../prior_work.md#deferred-retrieval) | **ALL locales mixed**, whole products parquet, no filter | **NO** (see §2.3) | none |
+| **B-2** | same function, called by [`scripts/build_full_catalog_indices.py:51,57`](../prior_work.md#deferred-retrieval) after `df_pr[df_pr['product_locale'] == LOCALE]` | **US only**, 1,215,854 products | yes, `output/full_retrieval/bm25s_index_us` | Recall@100 / RRF@100 (§3.2) |
+| **B-3** | [`retrieval/bm25.py:13-46`](../prior_work.md#bm25) `_score_single_group`, driven by `compute_bm25_scores` `:59-91`; and its transcription at [`experiments/ranking_v2/kdd_task1_benchmark/scripts/build_task1_benchmark.py:68-99`](../../src/data/build_task1_pool.py#L68-L99) | **one index per query**, over that query's own candidate set only | n/a (scores only) | NDCG 0.8198 (§3.1) |
 
 **Answer to "three indices or one mixed index": neither.** The number the resume quotes
 (BM25 NDCG full-list 0.8198) comes from **B-3**, which builds a fresh mini-index per query over
@@ -178,10 +178,10 @@ index design decision.
 ## 2.2 Analyzer — one English analyzer for all three locales, no locale-specific configuration
 
 All three constructions call `bm25s.tokenize(...)` with **no keyword arguments**:
-[`retrieval/bm25.py:23-24`](../../retrieval/bm25.py#L23-L24),
-[`:110`](../../retrieval/bm25.py#L110),
-[`:121`](../../retrieval/bm25.py#L121),
-[`build_task1_benchmark.py:78-79`](../ranking_v2/kdd_task1_benchmark/scripts/build_task1_benchmark.py#L78-L79)
+[`retrieval/bm25.py:23-24`](../prior_work.md#bm25),
+[`:110`](../prior_work.md#bm25),
+[`:121`](../prior_work.md#bm25),
+[`build_task1_benchmark.py:78-79`](../../src/data/build_task1_pool.py#L78-L79)
 (only `show_progress=False` is passed).
 
 The library defaults therefore apply to every locale
@@ -213,22 +213,22 @@ Two things follow, and the second contradicts what several existing reports say:
    becomes exactly **one** token. `ワイヤレスイヤホン` ("wireless earphones") is a single term that
    will only ever match a title containing that identical unbroken run. This is the mechanism
    behind the observed `bm25_score` zero-rate of 61.9% on jp rows
-   ([`experiments/ranking_v2/audit/REPORT.md:50`](../ranking_v2/audit/REPORT.md#L50)).
+   ([`experiments/ranking_v2/audit/REPORT.md:50`](ranking_audit.md#L50)).
 2. **It is regex-based, not whitespace-based.** Multiple reports describe BM25's jp handling as
    "whitespace tokenisation" / `str.split()` — that is inaccurate for BM25 (see the framing
    table, rows F-7 and F-8). The `str.split()` description *is* accurate for the **other**
-   text features: [`reranking/advanced_features.py:92`](../../reranking/advanced_features.py#L92),
-   [`:98`](../../reranking/advanced_features.py#L98),
-   [`:141-142`](../../reranking/advanced_features.py#L141-L142) (`word_overlap`, IDF map, with a
+   text features: [`reranking/advanced_features.py:92`](../prior_work.md#advanced_features),
+   [`:98`](../prior_work.md#advanced_features),
+   [`:141-142`](../prior_work.md#advanced_features) (`word_overlap`, IDF map, with a
    `PorterStemmer` at `:137` applied regardless of language), and
-   [`:161-163`](../../reranking/advanced_features.py#L161-L163) (`color_match`). Two different
+   [`:161-163`](../prior_work.md#advanced_features) (`color_match`). Two different
    tokenizers, two different defects, currently described as one.
 
 3. **Spanish stopwords are not removed and Spanish is not stemmed.** `de` and `para` survive
    tokenization above. This inflates document length and dilutes IDF on es. It has not been
    quantified anywhere in the repo.
 
-Dead code note: [`retrieval/bm25.py:48-56`](../../retrieval/bm25.py#L48-L56) defines
+Dead code note: [`retrieval/bm25.py:48-56`](../prior_work.md#bm25) defines
 `simple_tokenize()`, which *is* `text.lower().split()`. `grep -rn simple_tokenize --include=*.py`
 returns only its own definition — **it is never called**. It is a plausible source of the
 "whitespace tokenisation" description in the reports, but it is not on any execution path.
@@ -236,19 +236,19 @@ returns only its own definition — **it is never called**. It is a plausible so
 ## 2.3 Indexed product set
 
 - **B-2 (the one that produced the Recall numbers):** US only, 1,215,854 products.
-  [`scripts/build_full_catalog_indices.py:51`](../../scripts/build_full_catalog_indices.py#L51)
+  [`scripts/build_full_catalog_indices.py:51`](../prior_work.md#deferred-retrieval)
   `df_us = df_pr[df_pr['product_locale'] == LOCALE]`, with an assertion at `:53` that
   `product_id` is unique within the locale. Count corroborated by
   `experiments/two_tower_v2/baseline/baseline_config.json → serving.full_catalog_size_us_locale = 1215854`,
-  by [`scripts/evaluate_two_tower_v2_full_catalog.py:7`](../../scripts/evaluate_two_tower_v2_full_catalog.py#L7),
+  by [`scripts/evaluate_two_tower_v2_full_catalog.py:7`](../prior_work.md#deferred-retrieval),
   and by [`README.md:295`](../../README.md#L295).
   The stated rationale is at `build_full_catalog_indices.py:6-18`: the mixed-locale index stores
   no locale field per row, and 11,567 `product_id`s appear in more than one locale.
 - **B-1 (mixed-locale, all ~1.8M products):** built by `build_indices.py`, saved by
   `retrieval/bm25.py:144` to `output/bm25s_index` + `output/bm25_ids.json`. **Neither path
   exists on disk** (`ls output/` — absent). Loaders that reference it —
-  [`interactive_search.py:69`](../../interactive_search.py#L69) and
-  [`tests/test_baseline_search.py:33`](../../tests/test_baseline_search.py#L33) — use the
+  [`interactive_search.py:69`](../prior_work.md#interactive-gui) and
+  [`tests/test_baseline_search.py:33`](../prior_work.md#interactive-gui) — use the
   default path and would fail today; `scripts/mine_hard_negatives.py:57-60` explicitly overrides
   to the US index. **No reported number traces to a mixed-locale index.**
 - **B-3:** no persistent index; the corpus is the query's own candidate set.
@@ -268,16 +268,16 @@ from different ones and must not be stated in the same breath.
 
 ## 3.1 The 0.8198 / 0.8245 / 0.8429 numbers → **P1, all three locales**
 
-Source: [`experiments/ranking_v2/kdd_task1_benchmark/REPORT.md:11-12,17-22`](../ranking_v2/kdd_task1_benchmark/REPORT.md#L11-L22)
+Source: [`experiments/ranking_v2/kdd_task1_benchmark/REPORT.md:11-12,17-22`](kdd_task1/REPORT.md#L11-L22)
 — pool `task1_small_v1`, `test_task1.parquet`, **336,373 rows / 14,496 queries, 0 excluded**,
 full-list NDCG, gain E=1.0/S=0.1/C=0.01/I=0.0, scorer `kdd_task1_ndcg.py`, deterministic
 tie-break. Locale composition is pinned in the frozen test manifest at
-[`REPORT.md:634`](../ranking_v2/kdd_task1_benchmark/REPORT.md#L634):
+[`REPORT.md:634`](kdd_task1/REPORT.md#L634):
 `locale_breakdown | us 8,956 · jp 3,123 · es 2,417`, and repeated in the locale table header at
-[`:458`](../ranking_v2/kdd_task1_benchmark/REPORT.md#L458).
+[`:458`](kdd_task1/REPORT.md#L458).
 
 **These are all-locale aggregate numbers.** Their per-locale decomposition
-([`:458-463`](../ranking_v2/kdd_task1_benchmark/REPORT.md#L458-L463)):
+([`:458-463`](kdd_task1/REPORT.md#L458-L463)):
 
 | Model | US (8,956) | ES (2,417) | JP (3,123) | Overall (14,496) |
 |---|---:|---:|---:|---:|
@@ -288,21 +288,21 @@ tie-break. Locale composition is pinned in the frozen test manifest at
 Component provenance for those three rows:
 
 - **BM25 `bm25_score`** — recomputed on the Task 1 pool via the per-query mini index
-  ([`build_task1_benchmark.py:93-99,142-151`](../ranking_v2/kdd_task1_benchmark/scripts/build_task1_benchmark.py#L93-L151)).
+  ([`build_task1_benchmark.py:93-99,142-151`](../../src/data/build_task1_pool.py#L93-L151)).
 - **Two-Tower `semantic_score`** — the **V0** encoder, frozen:
-  [`build_task1_semantic_scores.py:46`](../ranking_v2/kdd_task1_benchmark/scripts/build_task1_semantic_scores.py#L46)
+  [`build_task1_semantic_scores.py:46`](../../legacy/features/build_feature_matrix.py#L46)
   `MODEL_PATH = os.path.join(ROOT, "models", "two_tower_finetuned")`, loaded at `:93-94`,
   recorded as `"model_frozen": True` at `:148`. Items keyed on `(product_id, product_locale)`
   at `:83-85`. **The V1 checkpoint was never scored on P1.**
 - **LambdaMART** — retrained on `train_task1.parquet`
-  ([`evaluate_task1_baselines.py:61,160-161`](../ranking_v2/kdd_task1_benchmark/scripts/evaluate_task1_baselines.py#L61-L161)),
+  ([`evaluate_task1_baselines.py:61,160-161`](../../legacy/features/build_feature_matrix.py#L61-L161)),
   hyperparameters copied verbatim from `scripts/train_lambdamart.py`, nothing tuned (`:172`).
   **LambdaMART itself IS trained on all three locales.** Only its `semantic_score` input comes
   from a US-only encoder. This distinction matters for §4.
 
 ## 3.2 Recall@100 = 0.4649 and RRF@100 = 0.5301 → **P3, US-only, and NOT the Task 1 pool**
 
-Source: [`experiments/two_tower_v2/phase1_correct_training/full_run/full_catalog_eval/v0_vs_v1_comparison.json`](../two_tower_v2/phase1_correct_training/full_run/full_catalog_eval/v0_vs_v1_comparison.json):
+Source: [`experiments/two_tower_v2/phase1_correct_training/full_run/full_catalog_eval/v0_vs_v1_comparison.json`](two_tower_v2/FINAL_REPORT.md):
 
 ```
 v0_two_tower_recall100: 0.4598   v1_two_tower_recall100: 0.4649
@@ -314,23 +314,23 @@ eval_query_sample: {size: 5000, seed: 42, locale: "us"}
 Scope, from code:
 
 - Catalog = **US only**, 1,215,854 products —
-  [`scripts/evaluate_two_tower_v2_full_catalog.py:36,47-48`](../../scripts/evaluate_two_tower_v2_full_catalog.py#L36-L48)
+  [`scripts/evaluate_two_tower_v2_full_catalog.py:36,47-48`](../prior_work.md#deferred-retrieval)
   (`LOCALE = "us"`, `df_us = df_pr[df_pr['product_locale'] == LOCALE]`), header at `:7`.
 - Query set = `output/full_retrieval/eval_query_ids.json`, loaded at
-  [`:60-64`](../../scripts/evaluate_two_tower_v2_full_catalog.py#L60-L64).
-- Ground truth = broad `{E,S,C}` — [`scripts/sample_eval_queries.py:28`](../../scripts/sample_eval_queries.py#L28),
+  [`:60-64`](../prior_work.md#deferred-retrieval).
+- Ground truth = broad `{E,S,C}` — [`scripts/sample_eval_queries.py:28`](../prior_work.md#deferred-retrieval),
   which is a **different relevance definition** from both the training positives (E/S,
   `train_two_tower_v2.py:52`) and the Task 1 NDCG gain vector.
 - BM25 side of the RRF = the US-only index B-2
-  ([`scripts/run_full_bm25_retrieval.py:35-37`](../../scripts/run_full_bm25_retrieval.py#L35-L37)).
+  ([`scripts/run_full_bm25_retrieval.py:35-37`](../prior_work.md#deferred-retrieval)).
 
 **Confirmed: this is the large-version full-catalog pool, US-only. It is not P1.**
 `0.4649` and `0.8245` are not comparable and never share a sentence.
 
 ## 3.3 The 5,000-query benchmark is 100% US
 
-[`scripts/sample_eval_queries.py:26`](../../scripts/sample_eval_queries.py#L26) `LOCALE = "us"`;
-[`:38`](../../scripts/sample_eval_queries.py#L38)
+[`scripts/sample_eval_queries.py:26`](../prior_work.md#deferred-retrieval) `LOCALE = "us"`;
+[`:38`](../prior_work.md#deferred-retrieval)
 `df_test = df_ex[(df_ex['split'] == 'test') & (df_ex['product_locale'] == LOCALE)]`;
 sampled at `:42-44` with `RandomState(42)`, `N_QUERIES = 5000` (`:25`).
 
@@ -340,7 +340,7 @@ Persisted manifest (`output/full_retrieval/eval_query_ids.json`, header fields o
 **Locale composition: us 5,000 / es 0 / jp 0.**
 
 Note `n_available = 22458` exactly equals the us column of the **P2** locale table
-([`official_metric_final/REPORT.md:219`](../ranking_v2/official_metric_final/REPORT.md#L219),
+([`official_metric_final/REPORT.md:219`](official_metric_final.md#L219),
 `us (22,458)`), and `sample_eval_queries.py:38` applies **no `small_version` filter** — so the
 sample is drawn from the large-version test split, confirming P3 sits on the large-version
 population.
@@ -351,14 +351,14 @@ about es or jp. `experiments/query_slice_analysis/REPORT.md:3` states this corre
 
 ## 3.4 The 0.7280 / 0.7487 jp observation → **P2, large-version, all-locale**
 
-[`experiments/ranking_v2/official_metric_final/REPORT.md:219-224,230-231`](../ranking_v2/official_metric_final/REPORT.md#L219-L231)
+[`experiments/ranking_v2/official_metric_final/REPORT.md:219-224,230-231`](official_metric_final.md#L219-L231)
 — locale table headed `us (22,458) | es (3,844) | jp (4,667) | overall (30,969)`. Two-Tower jp
 0.727965 vs BM25 jp 0.748731; Two-Tower beats BM25 by +0.0149 on us. The `semantic_score` column
 there is **frozen, not recomputed**
-([`evaluate_official_baselines.py:229`](../ranking_v2/official_metric_final/scripts/evaluate_official_baselines.py#L229):
+([`evaluate_official_baselines.py:229`](official_metric_final.md#L229):
 `"Two-Tower": "frozen semantic_score column, not recomputed"`), originating from
 `output/two_tower_scores_test.csv` via
-[`retrieval/two_tower.py:14,84`](../../retrieval/two_tower.py#L14) → V0 encoder.
+[`retrieval/two_tower.py:14,84`](../prior_work.md#two-tower-v0) → V0 encoder.
 
 So the jp inversion is observed on **P2**, while the Task 1 jp inversion (§3.1, 0.805964 vs
 0.824338) is observed on **P1**. Same direction, different pools, different magnitudes. Reports
@@ -378,7 +378,7 @@ correct.
 therefore a legitimate finding about the *feature stack* — but attributing that gap to a single
 named cause ("tokenisation") is a separate, unsupported causal claim, because `semantic_score`
 carries ~51% of model gain
-([`benchmark_repair/REPORT.md:309`](../ranking_v2/benchmark_repair/REPORT.md#L309)) and is
+([`benchmark_repair/REPORT.md:309`](benchmark_repair.md#L309)) and is
 itself the US-only encoder.
 
 **Result: 18 statements reviewed — 6 OVER-CLAIM, 5 NEEDS-ANNOTATION, 7 OK.**
