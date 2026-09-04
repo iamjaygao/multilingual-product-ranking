@@ -1,0 +1,66 @@
+{
+  "manifest": "scorer_sha256",
+  "purpose": "Pins the byte content of the two migrated scorers. Later phases MUST verify against this before trusting any NDCG number. MIGRATION_PLAN.md Phase 1 exit criterion; referenced by the metric_version string in Sec 10.2a.",
+  "migrated_at": "2026-09-03",
+  "source_repo": {
+    "name": "esci-search-ranking-system",
+    "commit": "ffd16a6",
+    "commit_full": "ffd16a6e588e238519ac7d0b156afe98a6b7080f"
+  },
+  "scorers": {
+    "kdd_task1_ndcg": {
+      "role": "AUTHORITATIVE \u2014 sole scorer of record for the Task 1 pool",
+      "source_path": "experiments/ranking_v2/kdd_task1_benchmark/scripts/kdd_task1_ndcg.py",
+      "new_path": "src/metrics/kdd_task1_ndcg.py",
+      "sha256": "6946489c8c09dc37cdb91b905dd5108e46e4070dbd1494b4ac4f972d20f41bc7",
+      "byte_identical_to_source": true,
+      "scorer_sha256_self_report": "6946489c8c09dc37cdb91b905dd5108e46e4070dbd1494b4ac4f972d20f41bc7",
+      "scorer_sha256_short": "6946489c8c09dc37",
+      "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic",
+      "gain_convention": "competition_E1_S0.1_C0.01_I0, used directly as the DCG numerator",
+      "exponentiation_applied": false,
+      "zero_idcg_policy": "exclude",
+      "tie_break": "deterministic",
+      "unit_tests": {
+        "file": "tests/test_kdd_task1_ndcg.py",
+        "manifest": "artifacts/manifests/scorer_unit_tests.json",
+        "pytest_cases": 12,
+        "assertions": 47
+      }
+    },
+    "official_kdd_ndcg": {
+      "role": "PARITY REFERENCE \u2014 large-version pool; not comparable to task1_small_v1",
+      "source_path": "experiments/ranking_v2/official_metric_final/scripts/official_kdd_ndcg.py",
+      "new_path": "src/metrics/official_kdd_ndcg.py",
+      "sha256": "b4e4184c240cb35efe8dc75924243ab5c3eac6027aa4872692261df4709d85bb",
+      "byte_identical_to_source": true,
+      "gain_convention": "E=1.00 S=0.10 C=0.01 I=0.00, linear",
+      "exponentiation_applied": false,
+      "unit_tests": {
+        "file": "tests/test_official_kdd_ndcg.py",
+        "manifest": "artifacts/manifests/official_kdd_scorer_unit_tests.json",
+        "pytest_cases": 8,
+        "assertions": 32,
+        "removed_during_migration": [
+          {
+            "test": "test_I_differs_from_legacy_scorer",
+            "source_lines": "226-243",
+            "reason": "imported the legacy exponential scorer (experiments/ranking_v2/benchmark_repair/scripts/official_ndcg.py); MIGRATION_PLAN.md Sec 11 item 14 bars it from this repo entirely",
+            "action": "DELETED, not skipped",
+            "coverage_retained_by": [
+              "test_B_substitute_above_exact",
+              "test_C_gain_values_are_linear"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "barred_from_this_repo": {
+    "evaluation/metrics.py": "legacy scorer; MIGRATION_PLAN.md Sec 11 item 14 HARD RULE \u2014 not one line, not as a reference",
+    "experiments/ranking_v2/benchmark_repair/scripts/official_ndcg.py": "second legacy scorer; KEEP_IN_OLD_REPO (Sec 3.6). Two scorers in one repo is the exact condition Sec 13.2 exists to prevent"
+  },
+  "pending": {
+    "metric_binding_13_2": "per_query_ndcg_table() still returns a bare DataFrame with no candidate_pool/metric_version binding. Sec 13.2 schedules this for Phase 5 (ScoredTable + assert_comparable + src/metrics/report.py). NOT implemented in Phase 1."
+  }
+}

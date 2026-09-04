@@ -1,0 +1,378 @@
+{
+  "scorer": "src/metrics/kdd_task1_ndcg.py",
+  "gain_convention": "E=1.00, S=0.10, C=0.01, I=0.00 used directly as the DCG numerator",
+  "exponentiation_applied": false,
+  "cutoffs": [
+    "full",
+    10,
+    20
+  ],
+  "scenarios_covered": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "J",
+    "K",
+    "property(500 random cases)"
+  ],
+  "passed": 47,
+  "total": 47,
+  "all_pass": true,
+  "assertions": [
+    {
+      "test": "full == 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "@10 == 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "@20 == 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "hand-computed NDCG",
+      "expected": 0.687550167778977,
+      "got": 0.687550167778977,
+      "pass": true,
+      "detail": "= 0.6875501678"
+    },
+    {
+      "test": "drop below perfect",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "drop magnitude",
+      "expected": 0.31244983222102296,
+      "got": 0.31244983222102296,
+      "pass": true,
+      "detail": "= 0.3124498322"
+    },
+    {
+      "test": "hand-computed NDCG",
+      "expected": 0.687550167778977,
+      "got": 0.687550167778977,
+      "pass": true,
+      "detail": "= 0.6875501678"
+    },
+    {
+      "test": "gain(S) == 0.10",
+      "expected": 0.1,
+      "got": 0.1,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "gain(C) == 0.01",
+      "expected": 0.01,
+      "got": 0.01,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "gain(S) is NOT 2**0.1-1",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "exponential would be 0.0717734625"
+    },
+    {
+      "test": "gain(C) is NOT 2**0.01-1",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "exponential would be 0.0069555501"
+    },
+    {
+      "test": "gain_from_labels maps E/S/C/I",
+      "expected": [
+        1.0,
+        0.1,
+        0.01,
+        0.0
+      ],
+      "got": [
+        1.0,
+        0.1,
+        0.01,
+        0.0
+      ],
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "n_candidates == 25",
+      "expected": 25,
+      "got": 25,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "full != @20",
+      "expected": true,
+      "got": "True",
+      "pass": true,
+      "detail": "full=0.7085548215 @20=0.5483373601"
+    },
+    {
+      "test": "@20 != @10",
+      "expected": true,
+      "got": "True",
+      "pass": true,
+      "detail": "@20=0.5483373601 @10=0.2726701557"
+    },
+    {
+      "test": "full != @10",
+      "expected": true,
+      "got": "True",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "@10 hand-computed",
+      "expected": 0.2726701556894781,
+      "got": 0.2726701556894781,
+      "pass": true,
+      "detail": "= 0.2726701557"
+    },
+    {
+      "test": "full == @10",
+      "expected": 0.5643908989224862,
+      "got": 0.5643908989224862,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "@10 == @20",
+      "expected": 0.5643908989224862,
+      "got": 0.5643908989224862,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "value hand-computed",
+      "expected": 0.5643908989224862,
+      "got": 0.5643908989224862,
+      "pass": true,
+      "detail": "= 0.5643908989"
+    },
+    {
+      "test": "idcg_full == 0 for the all-I query",
+      "expected": 0.0,
+      "got": 0.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "ndcg is NaN for the all-I query",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "exclude: count",
+      "expected": 1,
+      "got": 1,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "exclude: scored",
+      "expected": 1,
+      "got": 1,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "exclude: mean == 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "zero: mean == 0.5",
+      "expected": 0.5,
+      "got": 0.5,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "one: mean == 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "ties break on product_id asc",
+      "expected": 0.6405175928687699,
+      "got": 0.6405175928687699,
+      "pass": true,
+      "detail": "= 0.6405175929"
+    },
+    {
+      "test": "reproducible across calls",
+      "expected": 0.6405175928687699,
+      "got": 0.6405175928687699,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "locale asc breaks equal product_id",
+      "expected": 0.6309297535714575,
+      "got": 0.6309297535714575,
+      "pass": true,
+      "detail": "es sorts before us"
+    },
+    {
+      "test": "30 permutations give identical NDCG",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "NDCG = 0.911839399618"
+    },
+    {
+      "test": "30 permutations, all tied, identical NDCG",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "NDCG = 0.814906101111"
+    },
+    {
+      "test": "single E -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "single S -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "single I -> idcg 0",
+      "expected": 0.0,
+      "got": 0.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "single I excluded",
+      "expected": 0,
+      "got": 0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "all-E query -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "all-S query -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "all-C query -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "all-S and all tied -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "C-above-S is suboptimal under competition gain",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "= 0.6875501678"
+    },
+    {
+      "test": "C-above-S is OPTIMAL under swapped gain",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "direction reversed",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "B: swapped gain penalises the S-above-E error harder",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "competition=0.6875501678 swapped=0.6369112907"
+    },
+    {
+      "test": "GAIN_SWAPPED table",
+      "expected": {
+        "E": 1.0,
+        "S": 0.01,
+        "C": 0.1,
+        "I": 0.0
+      },
+      "got": {
+        "E": 1.0,
+        "S": 0.01,
+        "C": 0.1,
+        "I": 0.0
+      },
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "all outputs within [0,1]",
+      "expected": 0,
+      "got": 0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "perfect ordering always 1.0 on all cutoffs",
+      "expected": 0,
+      "got": 0,
+      "pass": true,
+      "detail": ""
+    }
+  ]
+}

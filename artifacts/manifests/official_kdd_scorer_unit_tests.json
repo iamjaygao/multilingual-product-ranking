@@ -1,0 +1,254 @@
+{
+  "scorer": "src/metrics/official_kdd_ndcg.py",
+  "gain_convention": "E=1.00, S=0.10, C=0.01, I=0.00 used directly as the DCG numerator",
+  "exponentiation_applied": false,
+  "passed": 32,
+  "total": 32,
+  "all_pass": true,
+  "assertions": [
+    {
+      "test": "perfect ranking -> NDCG == 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "hand-computed DCG matches dcg()",
+      "expected": 1.0680929753571458,
+      "got": 1.0680929753571458,
+      "pass": true,
+      "detail": "= 1.0680929754"
+    },
+    {
+      "test": "brief's hand-computed DCG",
+      "expected": 0.7309297535714575,
+      "got": 0.7309297535714575,
+      "pass": true,
+      "detail": "= 0.7309297536"
+    },
+    {
+      "test": "brief's hand-computed IDCG",
+      "expected": 1.0630929753571459,
+      "got": 1.0630929753571459,
+      "pass": true,
+      "detail": "= 1.0630929754"
+    },
+    {
+      "test": "NDCG matches DCG/IDCG",
+      "expected": 0.687550167778977,
+      "got": 0.687550167778977,
+      "pass": true,
+      "detail": "= 0.6875501678"
+    },
+    {
+      "test": "gain(E) == 1.00",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "gain(S) == 0.10",
+      "expected": 0.1,
+      "got": 0.1,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "gain(C) == 0.01",
+      "expected": 0.01,
+      "got": 0.01,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "gain(I) == 0.00",
+      "expected": 0.0,
+      "got": 0.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "gain(S) is NOT the legacy 0.0717734625",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "legacy would be 0.0717734625"
+    },
+    {
+      "test": "gain(C) is NOT the legacy 0.0069555501",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "legacy would be 0.0069555501"
+    },
+    {
+      "test": "S:E gain ratio == 0.10 exactly",
+      "expected": 0.1,
+      "got": 0.1,
+      "pass": true,
+      "detail": "legacy ratio was 0.0717734625"
+    },
+    {
+      "test": "C:E gain ratio == 0.01 exactly",
+      "expected": 0.01,
+      "got": 0.01,
+      "pass": true,
+      "detail": "legacy ratio was 0.0069555501"
+    },
+    {
+      "test": "gain_from_labels maps the four labels",
+      "expected": [
+        1.0,
+        0.1,
+        0.01,
+        0.0
+      ],
+      "got": [
+        1.0,
+        0.1,
+        0.01,
+        0.0
+      ],
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "OFFICIAL_GAIN dict is the KDD table",
+      "expected": {
+        "E": 1.0,
+        "S": 0.1,
+        "C": 0.01,
+        "I": 0.0
+      },
+      "got": {
+        "E": 1.0,
+        "S": 0.1,
+        "C": 0.01,
+        "I": 0.0
+      },
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "3 candidates, perfect order -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "short list is still scored",
+      "expected": 1,
+      "got": 1,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "no query excluded",
+      "expected": 0,
+      "got": 0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "3 candidates, reversed order",
+      "expected": 0.5296742508979281,
+      "got": 0.5296742508979281,
+      "pass": true,
+      "detail": "= 0.5296742509"
+    },
+    {
+      "test": "1 candidate that is relevant -> 1.0",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "forward vs reversed row order",
+      "expected": 0.6405175928687699,
+      "got": 0.6405175928687699,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "forward vs shuffled row order",
+      "expected": 0.6405175928687699,
+      "got": 0.6405175928687699,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "tie order is ascending product_id",
+      "expected": 0.6405175928687699,
+      "got": 0.6405175928687699,
+      "pass": true,
+      "detail": "= 0.6405175929"
+    },
+    {
+      "test": "25 random permutations, all-tied scores, identical NDCG",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "NDCG = 0.6869779784"
+    },
+    {
+      "test": "pessimistic tie-break <= deterministic",
+      "expected": true,
+      "got": true,
+      "pass": true,
+      "detail": "pessimistic = 0.5296742509"
+    },
+    {
+      "test": "total queries seen",
+      "expected": 2,
+      "got": 2,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "queries scored",
+      "expected": 1,
+      "got": 1,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "queries excluded (no relevant)",
+      "expected": 1,
+      "got": 1,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "mean is 1.0, not 0.5",
+      "expected": 1.0,
+      "got": 1.0,
+      "pass": true,
+      "detail": "all-I query excluded rather than counted as zero"
+    },
+    {
+      "test": "excluded query absent from per_query_ndcg index",
+      "expected": false,
+      "got": false,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "unweighted mean of 1.0 and 0.0",
+      "expected": 0.5,
+      "got": 0.5,
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "test": "two irrelevant at the top",
+      "expected": 0.6410457898283652,
+      "got": 0.6410457898283654,
+      "pass": true,
+      "detail": "= 0.6410457898"
+    }
+  ]
+}
