@@ -1,0 +1,37 @@
+{
+  "ndcg_full": 0.883443,
+  "ndcg_at_10": 0.792383,
+  "ndcg_at_20": 0.845605,
+  "query_count": 5071,
+  "row_count": 118231,
+  "split": "dev",
+  "checkpoint": "artifacts/checkpoints/cross_encoder_v2",
+  "device": "mps",
+  "max_length": 256,
+  "batch_size": 128,
+  "max_eval_queries": null,
+  "seed": 42,
+  "scorer": "src/metrics/kdd_task1_ndcg.py",
+  "candidate_pool": "task1_small_v1",
+  "metric_version": "kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic",
+  "zero_idcg_policy": "exclude",
+  "zero_idcg_query_count": 0,
+  "score_definition": "expected ESCI gain: P(E)*1.0 + P(S)*0.1 + P(C)*0.01 + P(I)*0.0",
+  "score_min": 0.0073598464732009435,
+  "score_max": 0.9820829976324207,
+  "score_mean": 0.46527269525368176,
+  "mean_predicted_prob": {
+    "E": 0.428904,
+    "S": 0.358198,
+    "C": 0.054886,
+    "I": 0.158012
+  },
+  "argmax_label_distribution": {
+    "E": 52856,
+    "S": 42697,
+    "C": 5494,
+    "I": 17184
+  },
+  "wall_time_seconds": 590.9,
+  "is_official_test_run": false
+}
