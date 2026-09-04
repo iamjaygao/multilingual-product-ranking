@@ -1,0 +1,67 @@
+{
+  "examples_path": "../dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_examples.parquet",
+  "products_path": "../dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_products.parquet",
+  "examples_rows": 2621288,
+  "products_rows": 1814924,
+  "unique_query_ids": 130652,
+  "esci_repo_ranking_dir_found": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/ranking",
+  "prepare_trec_eval_files_path": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/ranking/prepare_trec_eval_files.py",
+  "launch_predictions_task1_path": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/ranking/launch-predictions-task1.sh",
+  "examples_schema": {
+    "example_id": "int64",
+    "query": "string",
+    "query_id": "int64",
+    "product_id": "string",
+    "product_locale": "string",
+    "esci_label": "string",
+    "small_version": "int64",
+    "large_version": "int64",
+    "split": "string",
+    "__index_level_0__": "int64"
+  },
+  "products_schema": {
+    "product_id": "string",
+    "product_title": "string",
+    "product_description": "string",
+    "product_bullet_point": "string",
+    "product_brand": "string",
+    "product_color": "string",
+    "product_locale": "string"
+  },
+  "small_version_counts": {
+    "0": 1503277,
+    "1": 1118011
+  },
+  "large_version_counts": {
+    "1": 2621288
+  },
+  "split_counts": {
+    "train": 1983272,
+    "test": 638016
+  },
+  "esci_label_values": [
+    "C",
+    "E",
+    "I",
+    "S"
+  ],
+  "locale_values": [
+    "es",
+    "jp",
+    "us"
+  ],
+  "parquet_files_scanned": 2,
+  "examples_candidates": [
+    "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_examples.parquet"
+  ],
+  "products_candidates": [
+    "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_products.parquet"
+  ],
+  "examples_path_abs": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_examples.parquet",
+  "products_path_abs": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_products.parquet",
+  "searched_roots": [
+    "/Users/jaygao/WORKSPACE/projects/dataset/esci-data",
+    "/Users/jaygao/WORKSPACE/projects/dataset",
+    "/Users/jaygao/WORKSPACE"
+  ]
+}

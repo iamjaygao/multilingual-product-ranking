@@ -1,0 +1,21 @@
+{
+  "purpose": "Append-only record of every accepted read of the frozen TEST split. MIGRATION_PLAN.md \u00a713.1.",
+  "accesses": [
+    {
+      "timestamp_utc": "2026-09-04T03:03:43.320195+00:00",
+      "prereg": "docs/prereg/pool_construction.md",
+      "caller": "src/data/gates/gate_a_operative.py:41 in main",
+      "commit": "c62691743b01709bb7188eefb42699d51f465605",
+      "metadata_only": false,
+      "columns_requested": "ALL"
+    },
+    {
+      "timestamp_utc": "2026-09-04T03:03:52.727543+00:00",
+      "prereg": "docs/prereg/pool_construction.md",
+      "caller": "src/data/build_task1_pool.py:81 in build_core_pool",
+      "commit": "c62691743b01709bb7188eefb42699d51f465605",
+      "metadata_only": false,
+      "columns_requested": "ALL"
+    }
+  ]
+}

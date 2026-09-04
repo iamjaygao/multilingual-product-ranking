@@ -1,0 +1,352 @@
+{
+  "policy": "NOT quarantined, NOT filtered -- diagnostic only (resolution item 4)",
+  "normalization": "lowercase + whitespace-collapse",
+  "task1_train_unique_query_texts": 33777,
+  "task1_test_unique_query_texts": 14488,
+  "shared_query_texts": 15,
+  "shared_query_texts_list": [
+    "airpods pro",
+    "android",
+    "chromecast",
+    "gopro hero 7 black",
+    "guitar",
+    "huawei mate 20 pro",
+    "insta360 one",
+    "ipad pro 11",
+    "oculus quest",
+    "one piece",
+    "psp",
+    "samsung s8",
+    "ssd",
+    "vape",
+    "xiaomi mi 9t pro"
+  ],
+  "affected_test_query_ids": [
+    7569,
+    9044,
+    26143,
+    46787,
+    47949,
+    51847,
+    53430,
+    53903,
+    75077,
+    75632,
+    84011,
+    90281,
+    97286,
+    97287,
+    107907,
+    114395
+  ],
+  "affected_test_query_count": 16,
+  "affected_train_query_ids": [
+    7570,
+    9045,
+    26142,
+    26144,
+    46786,
+    47948,
+    51846,
+    53429,
+    53902,
+    75076,
+    75633,
+    84010,
+    90282,
+    97288,
+    107906,
+    114394
+  ],
+  "affected_train_query_count": 16,
+  "cross_split_query_product_locale_triples": {
+    "count": 0,
+    "with_agreeing_label": 0,
+    "with_conflicting_label": 0,
+    "agreement_rate": null,
+    "examples": [],
+    "interpretation": "No product is judged on both sides of the split for any shared query text, so there is no literal pair-level transfer channel; the collision is query-text only."
+  },
+  "worst_case_ndcg_bound": {
+    "n_affected_test_queries": 16,
+    "n_test_queries": 14496,
+    "bound": 0.001104,
+    "definition": "n_affected / 14496. This is the maximum possible absolute NDCG@10 inflation, assuming the adversarial extreme in which every affected test query is scored a perfect 1.0 purely by memorising its same-text training twin, and would otherwise have scored 0.0. The realistic effect is far smaller: the query_ids differ, the candidate sets differ, and the models are feature-based rather than memorising."
+  },
+  "per_text_detail": [
+    {
+      "normalized_query": "airpods pro",
+      "train_query_ids": [
+        7570
+      ],
+      "test_query_ids": [
+        7569
+      ],
+      "train_locales": [
+        "us"
+      ],
+      "test_locales": [
+        "es"
+      ],
+      "train_rows": 49,
+      "test_rows": 16,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "android",
+      "train_query_ids": [
+        9045
+      ],
+      "test_query_ids": [
+        9044
+      ],
+      "train_locales": [
+        "jp"
+      ],
+      "test_locales": [
+        "es"
+      ],
+      "train_rows": 16,
+      "test_rows": 16,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "chromecast",
+      "train_query_ids": [
+        26142,
+        26144
+      ],
+      "test_query_ids": [
+        26143
+      ],
+      "train_locales": [
+        "es",
+        "us"
+      ],
+      "test_locales": [
+        "jp"
+      ],
+      "train_rows": 59,
+      "test_rows": 16,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "gopro hero 7 black",
+      "train_query_ids": [
+        46786
+      ],
+      "test_query_ids": [
+        46787
+      ],
+      "train_locales": [
+        "es"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 16,
+      "test_rows": 28,
+      "shared_products": 1
+    },
+    {
+      "normalized_query": "guitar",
+      "train_query_ids": [
+        47948
+      ],
+      "test_query_ids": [
+        47949
+      ],
+      "train_locales": [
+        "jp"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 16,
+      "test_rows": 48,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "huawei mate 20 pro",
+      "train_query_ids": [
+        51846
+      ],
+      "test_query_ids": [
+        51847
+      ],
+      "train_locales": [
+        "es"
+      ],
+      "test_locales": [
+        "jp"
+      ],
+      "train_rows": 16,
+      "test_rows": 16,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "insta360 one",
+      "train_query_ids": [
+        53429
+      ],
+      "test_query_ids": [
+        53430
+      ],
+      "train_locales": [
+        "jp"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 16,
+      "test_rows": 16,
+      "shared_products": 5
+    },
+    {
+      "normalized_query": "ipad pro 11",
+      "train_query_ids": [
+        53902
+      ],
+      "test_query_ids": [
+        53903
+      ],
+      "train_locales": [
+        "es"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 16,
+      "test_rows": 33,
+      "shared_products": 1
+    },
+    {
+      "normalized_query": "oculus quest",
+      "train_query_ids": [
+        75076
+      ],
+      "test_query_ids": [
+        75077
+      ],
+      "train_locales": [
+        "jp"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 16,
+      "test_rows": 47,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "one piece",
+      "train_query_ids": [
+        75633
+      ],
+      "test_query_ids": [
+        75632
+      ],
+      "train_locales": [
+        "us"
+      ],
+      "test_locales": [
+        "jp"
+      ],
+      "train_rows": 16,
+      "test_rows": 16,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "psp",
+      "train_query_ids": [
+        84010
+      ],
+      "test_query_ids": [
+        84011
+      ],
+      "train_locales": [
+        "jp"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 48,
+      "test_rows": 24,
+      "shared_products": 3
+    },
+    {
+      "normalized_query": "samsung s8",
+      "train_query_ids": [
+        90282
+      ],
+      "test_query_ids": [
+        90281
+      ],
+      "train_locales": [
+        "us"
+      ],
+      "test_locales": [
+        "es"
+      ],
+      "train_rows": 26,
+      "test_rows": 23,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "ssd",
+      "train_query_ids": [
+        97288
+      ],
+      "test_query_ids": [
+        97286,
+        97287
+      ],
+      "train_locales": [
+        "us"
+      ],
+      "test_locales": [
+        "es",
+        "jp"
+      ],
+      "train_rows": 58,
+      "test_rows": 118,
+      "shared_products": 8
+    },
+    {
+      "normalized_query": "vape",
+      "train_query_ids": [
+        107906
+      ],
+      "test_query_ids": [
+        107907
+      ],
+      "train_locales": [
+        "jp"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 16,
+      "test_rows": 31,
+      "shared_products": 0
+    },
+    {
+      "normalized_query": "xiaomi mi 9t pro",
+      "train_query_ids": [
+        114394
+      ],
+      "test_query_ids": [
+        114395
+      ],
+      "train_locales": [
+        "es"
+      ],
+      "test_locales": [
+        "us"
+      ],
+      "train_rows": 20,
+      "test_rows": 24,
+      "shared_products": 0
+    }
+  ]
+}

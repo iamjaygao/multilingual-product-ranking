@@ -1,0 +1,174 @@
+{
+  "examples_path": "../dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_examples.parquet",
+  "products_path": "../dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_products.parquet",
+  "examples_path_abs": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_examples.parquet",
+  "products_path_abs": "/Users/jaygao/WORKSPACE/projects/dataset/esci-data/shopping_queries_dataset/shopping_queries_dataset_products.parquet",
+  "A1_small_subset_of_large": {
+    "large_version_values_among_small_rows": [
+      1
+    ],
+    "SUBSET": true,
+    "small_rows": 1118011,
+    "small_rows_with_large_version_1": 1118011,
+    "interpretation": "every small_version==1 row is also large_version==1, so per-row scores/features may be reused by key"
+  },
+  "downstream_path": "REUSE",
+  "A2_split_consistent_per_query": {
+    "queries_with_multiple_splits": 1,
+    "max_splits_per_query": 2,
+    "PASS": false,
+    "offending_query_ids": [
+      79706
+    ]
+  },
+  "A2_split_agreement_small_vs_large": {
+    "shared_query_ids": 48300,
+    "queries_where_small_and_large_split_disagree": 0
+  },
+  "A3_task1_test_disjoint_from_large_train": {
+    "task1_test_queries": 14496,
+    "large_train_queries": 99684,
+    "intersection_size": 1,
+    "PASS": false,
+    "offending_query_ids": [
+      79706
+    ]
+  },
+  "A4_products_pk_unique": {
+    "products_rows": 1814924,
+    "duplicate_rows": 0,
+    "duplicate_keys": 0,
+    "PASS": true,
+    "sample_duplicate_keys": []
+  },
+  "STOPS": [
+    "A2 FAILED: 1 query_ids appear in more than one split. Examples: [79706]",
+    "A3 FAILED: 1 Task1 test query_ids also appear in the large train split. Examples: [79706]"
+  ],
+  "GATE_A_PASS": false,
+  "A_FAILURE_DIAGNOSTIC": {
+    "offending_query_ids": [
+      79706
+    ],
+    "per_query": {
+      "79706": {
+        "query_text": "piano",
+        "locales": [
+          "us"
+        ],
+        "total_raw_rows": 34,
+        "breakdown_split_x_version": [
+          {
+            "split": "test",
+            "small_version": 1,
+            "large_version": 1,
+            "rows": 31
+          },
+          {
+            "split": "train",
+            "small_version": 0,
+            "large_version": 1,
+            "rows": 3
+          }
+        ],
+        "train_products": 3,
+        "test_products": 31,
+        "product_overlap_between_splits": 0,
+        "small_version_1_rows_by_split": {
+          "test": 31
+        },
+        "appears_in_task1_pool_on_both_sides": false,
+        "example_id_range": [
+          1565543,
+          1565576
+        ]
+      }
+    },
+    "scope": {
+      "queries_with_multiple_splits_in_RAW_examples": 1,
+      "queries_with_multiple_splits_WITHIN_task1_pool_only": 0,
+      "task1_pool_internally_clean": true,
+      "explanation": "A2 is evaluated over all raw rows. Within the small_version==1 (Task 1) pool alone the offending query appears in exactly one split, so the Task 1 train/dev/test construction of section 6 would not itself be contaminated. A3 fails because it compares Task 1 test queries against large_version==1 TRAIN queries, and the offending rows are large-only (small_version==0). The exposure is therefore to section 13 arm B (the large-train pool), which is precisely what A3 was written to protect.",
+      "note_on_arm_B_filter": "The arm B filter specified in section 13 is \"large_version==1 AND split=='train' AND query_id NOT IN task1_test_queries\". That filter already excludes the offending query by construction, so arm B as specified would not leak even with A3 failing. A3 asserts a stronger property of the raw data than arm B's filter requires. This is an observation, not a decision -- resolving A3 remains a human call."
+    },
+    "separate_issue_shared_query_text_across_task1_splits": {
+      "task1_train_unique_texts": 33777,
+      "task1_test_unique_texts": 14488,
+      "overlap": 15,
+      "pct_of_task1_test_texts": 0.1035,
+      "examples": [
+        "airpods pro",
+        "android",
+        "chromecast",
+        "gopro hero 7 black",
+        "guitar",
+        "huawei mate 20 pro",
+        "insta360 one",
+        "ipad pro 11",
+        "oculus quest",
+        "one piece",
+        "psp",
+        "samsung s8",
+        "ssd",
+        "vape",
+        "xiaomi mi 9t pro"
+      ],
+      "note": "distinct query_ids carrying identical normalised text; not covered by A2/A3, recorded for the human decision"
+    }
+  },
+  "OPERATIVE_ASSERTIONS": {
+    "note": "A2/A3 are recorded RED as FAIL_UPSTREAM: they assert a property of the raw ESCI table that ESCI itself violates for exactly one query_id (79706). No data was modified, filtered or de-duplicated. A2'/A3' are the GREEN operative assertions the benchmark actually depends on, and both PASS.",
+    "A2_prime_split_uniqueness_within_task1": {
+      "assertion": "within small_version==1, every query_id belongs to exactly one split",
+      "scope": "small_version == 1 (Task 1 pool)",
+      "queries_with_multiple_splits": 0,
+      "task1_queries": 48300,
+      "PASS": true
+    },
+    "A3_prime_materialized_arm_b_disjoint": {
+      "assertion": "set(materialized arm_B.query_id) & task1_test_q == empty",
+      "evaluated_on": "the ACTUAL materialized arm B pool (not a proxy)",
+      "helper_used": "task1_common.build_arm_b_pool -> exclude_task1_test_queries",
+      "arm_b_rows": 781638,
+      "arm_b_queries": 33804,
+      "task1_test_queries": 14496,
+      "intersection_size": 0,
+      "PASS": true,
+      "exclusion_info": {
+        "rows_before": 781638,
+        "rows_removed": 0,
+        "rows_after": 781638,
+        "queries_removed": 0,
+        "removed_query_ids_sample": [],
+        "task1_test_query_count": 14496,
+        "helper": "src.data.task1_common.exclude_task1_test_queries",
+        "definition": "large_version==1 AND split=='train' AND query_id NOT IN task1_test_queries (applied via task1_common.exclude_task1_test_queries)"
+      }
+    },
+    "BOTH_PASS": true
+  },
+  "A2_A3_STATUS": "FAIL_UPSTREAM (documented, data untouched)",
+  "A2_prime_A3_prime_STATUS": "PASS",
+  "GATE_A_RESOLUTION": "Resolved by human decision: A2/A3 recorded as FAIL_UPSTREAM; operative assertions A2'/A3' added and both PASS; query_id 79706 NOT excluded and no data modified.",
+  "UPSTREAM_DEFECT_79706": {
+    "query_id": 79706,
+    "query_text": "piano",
+    "locale": "us",
+    "small_version_1_test_rows": 31,
+    "large_only_train_rows": 3,
+    "product_overlap_between_splits": 0,
+    "sole_occurrence_in_dataset": true,
+    "violates": "the split property stated in the official ESCI README, namely that a query belongs to exactly one of the train/test splits",
+    "action_taken": "documented only; not modified, not filtered, not de-duplicated"
+  },
+  "PRODUCT_LOCALE_MULTIPLICITY": {
+    "check": "task1.groupby('product_id').product_locale.nunique().max()",
+    "max_locales_per_product_id": 3,
+    "product_ids_in_multiple_locales": 4359,
+    "unique_product_ids": 879141,
+    "unique_product_id_locale_pairs": 883716,
+    "locale_prefixed_doc_id_mandatory": true,
+    "doc_id_format": "f\"{product_locale}_{product_id}\"",
+    "divergence_from_official_helper": "amazon-science/esci-data ranking/prepare_trec_eval_files.py writes qrels keyed on product_id ALONE (col_product_id, lines 121-126) with no locale component. Because 4359 product_ids in the Task 1 pool appear under up to 3 different locales, that keying collapses distinct (product, locale) judgements onto one doc_id, which can silently corrupt both the qrels and the run file. This benchmark therefore uses a locale-prefixed doc_id, diverging from the reference helper deliberately."
+  }
+}

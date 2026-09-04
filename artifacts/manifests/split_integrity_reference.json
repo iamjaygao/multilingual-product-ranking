@@ -1,0 +1,113 @@
+{
+  "query_counts": {
+    "train": 28733,
+    "dev": 5071,
+    "test": 14496
+  },
+  "row_counts": {
+    "train": 663407,
+    "dev": 118231,
+    "test": 336373
+  },
+  "overlaps": {
+    "train__dev": {
+      "size": 0,
+      "PASS": true,
+      "sample": []
+    },
+    "train__test": {
+      "size": 0,
+      "PASS": true,
+      "sample": []
+    },
+    "dev__test": {
+      "size": 0,
+      "PASS": true,
+      "sample": []
+    }
+  },
+  "duplicates": {
+    "train": {
+      "count": 0,
+      "PASS": true,
+      "sample": []
+    },
+    "dev": {
+      "count": 0,
+      "PASS": true,
+      "sample": []
+    },
+    "test": {
+      "count": 0,
+      "PASS": true,
+      "sample": []
+    }
+  },
+  "locale_distribution": {
+    "train": {
+      "us": 0.6179,
+      "es": 0.1666,
+      "jp": 0.2155
+    },
+    "dev": {
+      "us": 0.6178,
+      "es": 0.1666,
+      "jp": 0.2155
+    },
+    "test": {
+      "us": 0.6178,
+      "es": 0.1667,
+      "jp": 0.2154
+    }
+  },
+  "depth_distribution": {
+    "train": {
+      "mean": 23.0887,
+      "median": 16.0,
+      "p5": 15.0,
+      "p95": 40.0,
+      "min": 8,
+      "max": 188
+    },
+    "dev": {
+      "mean": 23.3151,
+      "median": 16.0,
+      "p5": 15.0,
+      "p95": 40.0,
+      "min": 8,
+      "max": 94
+    },
+    "test": {
+      "mean": 23.2045,
+      "median": 16.0,
+      "p5": 15.0,
+      "p95": 40.0,
+      "min": 8,
+      "max": 95
+    }
+  },
+  "label_distribution": {
+    "train": {
+      "E": 43.6631,
+      "S": 34.2324,
+      "C": 5.174,
+      "I": 16.9305
+    },
+    "dev": {
+      "E": 43.5216,
+      "S": 34.5324,
+      "C": 5.2634,
+      "I": 16.6826
+    },
+    "test": {
+      "E": 44.1114,
+      "S": 34.3595,
+      "C": 5.064,
+      "I": 16.4651
+    }
+  },
+  "train_dev_locale_match": false,
+  "split_method": "query-level train_test_split(test_size=0.15, random_state=42, stratify=product_locale); a query belongs to exactly one split; no row-level splitting",
+  "STOPS": [],
+  "PASS": true
+}

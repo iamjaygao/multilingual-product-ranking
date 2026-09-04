@@ -27,6 +27,10 @@ classifiers = [
 #   faiss     -> full-catalog retrieval is deferred (§7.4); no ANN index here
 #   nltk      -> PorterStemmer feeds `word_overlap`, a Layer 2 feature (§4.2)
 #   tkinter   -> the interactive GUI is not migrated (§7.3-6)
+#   bm25s     -> src/features/bm25_pool.py produces `bm25_score`, which is a
+#   joblib       LAYER 2 column (§4.2). The module lives on the main path per
+#                §8, but nothing in the minimum loop imports it, so its deps
+#                belong in the `legacy` extra rather than in core.
 # ---------------------------------------------------------------------------
 dependencies = [
     # --- data plane -------------------------------------------------------
@@ -55,10 +59,6 @@ dependencies = [
     "huggingface_hub==1.4.1",
     "tokenizers==0.22.2",
 
-    # --- lexical feature producer (src/features/bm25_pool.py) -------------
-    "bm25s==0.3.0",
-    "joblib==1.5.3",
-
     "tqdm==4.67.3",
 ]
 
@@ -76,6 +76,10 @@ two-tower = [
 legacy = [
     "lightgbm==4.7.0",
     "nltk==3.9.1",
+    # src/features/bm25_pool.py -- imported lazily, inside the functions, so a
+    # core-only install can still import the module without these present.
+    "bm25s==0.3.0",
+    "joblib==1.5.3",
 ]
 
 # Phase 6c — exploratory zero-shot reranker bake-off.

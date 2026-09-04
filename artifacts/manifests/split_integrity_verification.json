@@ -1,0 +1,326 @@
+{
+  "gate": "MIGRATION_PLAN.md \u00a710.4 Layer 1 rebuild verification",
+  "blocking": true,
+  "reference": "split_integrity_reference.json",
+  "rebuilt": "split_integrity_rebuilt.json",
+  "scikit_learn_version": "1.8.0",
+  "checks_total": 52,
+  "checks_passed": 52,
+  "checks_failed": 0,
+  "PASS": true,
+  "failures": [],
+  "checks": [
+    {
+      "check": "query_counts.train",
+      "expected": 28733,
+      "observed": 28733,
+      "PASS": true
+    },
+    {
+      "check": "query_counts.dev",
+      "expected": 5071,
+      "observed": 5071,
+      "PASS": true
+    },
+    {
+      "check": "query_counts.test",
+      "expected": 14496,
+      "observed": 14496,
+      "PASS": true
+    },
+    {
+      "check": "row_counts.train",
+      "expected": 663407,
+      "observed": 663407,
+      "PASS": true
+    },
+    {
+      "check": "row_counts.dev",
+      "expected": 118231,
+      "observed": 118231,
+      "PASS": true
+    },
+    {
+      "check": "row_counts.test",
+      "expected": 336373,
+      "observed": 336373,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.train.us",
+      "expected": 0.6179,
+      "observed": 0.6179,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.train.es",
+      "expected": 0.1666,
+      "observed": 0.1666,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.train.jp",
+      "expected": 0.2155,
+      "observed": 0.2155,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.dev.us",
+      "expected": 0.6178,
+      "observed": 0.6178,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.dev.es",
+      "expected": 0.1666,
+      "observed": 0.1666,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.dev.jp",
+      "expected": 0.2155,
+      "observed": 0.2155,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.test.us",
+      "expected": 0.6178,
+      "observed": 0.6178,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.test.es",
+      "expected": 0.1667,
+      "observed": 0.1667,
+      "PASS": true
+    },
+    {
+      "check": "locale_distribution.test.jp",
+      "expected": 0.2154,
+      "observed": 0.2154,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.train.mean",
+      "expected": 23.0887,
+      "observed": 23.0887,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.train.median",
+      "expected": 16.0,
+      "observed": 16.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.train.p5",
+      "expected": 15.0,
+      "observed": 15.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.train.p95",
+      "expected": 40.0,
+      "observed": 40.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.train.min",
+      "expected": 8,
+      "observed": 8,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.train.max",
+      "expected": 188,
+      "observed": 188,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.dev.mean",
+      "expected": 23.3151,
+      "observed": 23.3151,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.dev.median",
+      "expected": 16.0,
+      "observed": 16.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.dev.p5",
+      "expected": 15.0,
+      "observed": 15.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.dev.p95",
+      "expected": 40.0,
+      "observed": 40.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.dev.min",
+      "expected": 8,
+      "observed": 8,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.dev.max",
+      "expected": 94,
+      "observed": 94,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.test.mean",
+      "expected": 23.2045,
+      "observed": 23.2045,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.test.median",
+      "expected": 16.0,
+      "observed": 16.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.test.p5",
+      "expected": 15.0,
+      "observed": 15.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.test.p95",
+      "expected": 40.0,
+      "observed": 40.0,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.test.min",
+      "expected": 8,
+      "observed": 8,
+      "PASS": true
+    },
+    {
+      "check": "depth_distribution.test.max",
+      "expected": 95,
+      "observed": 95,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.train.E",
+      "expected": 43.6631,
+      "observed": 43.6631,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.train.S",
+      "expected": 34.2324,
+      "observed": 34.2324,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.train.C",
+      "expected": 5.174,
+      "observed": 5.174,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.train.I",
+      "expected": 16.9305,
+      "observed": 16.9305,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.dev.E",
+      "expected": 43.5216,
+      "observed": 43.5216,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.dev.S",
+      "expected": 34.5324,
+      "observed": 34.5324,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.dev.C",
+      "expected": 5.2634,
+      "observed": 5.2634,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.dev.I",
+      "expected": 16.6826,
+      "observed": 16.6826,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.test.E",
+      "expected": 44.1114,
+      "observed": 44.1114,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.test.S",
+      "expected": 34.3595,
+      "observed": 34.3595,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.test.C",
+      "expected": 5.064,
+      "observed": 5.064,
+      "PASS": true
+    },
+    {
+      "check": "label_distribution.test.I",
+      "expected": 16.4651,
+      "observed": 16.4651,
+      "PASS": true
+    },
+    {
+      "check": "overlap.train__dev.size",
+      "expected": 0,
+      "observed": 0,
+      "PASS": true
+    },
+    {
+      "check": "overlap.train__test.size",
+      "expected": 0,
+      "observed": 0,
+      "PASS": true
+    },
+    {
+      "check": "overlap.dev__test.size",
+      "expected": 0,
+      "observed": 0,
+      "PASS": true
+    },
+    {
+      "check": "duplicates.train.count",
+      "expected": 0,
+      "observed": 0,
+      "PASS": true
+    },
+    {
+      "check": "duplicates.dev.count",
+      "expected": 0,
+      "observed": 0,
+      "PASS": true
+    },
+    {
+      "check": "duplicates.test.count",
+      "expected": 0,
+      "observed": 0,
+      "PASS": true
+    },
+    {
+      "check": "split_method",
+      "expected": "query-level train_test_split(test_size=0.15, random_state=42, stratify=product_locale); a query belongs to exactly one split; no row-level splitting",
+      "observed": "query-level train_test_split(test_size=0.15, random_state=42, stratify=product_locale); a query belongs to exactly one split; no row-level splitting",
+      "PASS": true
+    }
+  ]
+}
