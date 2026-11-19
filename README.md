@@ -10,9 +10,11 @@ depending on which of the two files you use. I reported it upstream and
 published a minimal reproduction.
 
 I then rebuilt Amazon's own baseline model from their published recipe and
-trained a replacement that ranks results better than it does across all three
-languages in the dataset. Every number below can be regenerated from this
-repository, and the held-out evaluation set has deliberately never been touched.
+trained a replacement that scores higher than it on the dev split in all three
+languages in the dataset. Every model-comparison number below is read from a
+result file tracked under [`artifacts/`](artifacts/), and the held-out test split
+has deliberately never been scored. Where each number comes from is listed in
+[`docs/ground_truth_multilingual-ranking.md`](docs/ground_truth_multilingual-ranking.md).
 
 ---
 
@@ -30,11 +32,14 @@ A *Substitute* (a reasonable alternative product) and a *Complement* (an
 accessory bought alongside) end up weighted 0.01 and 0.1 — the inverse of the
 specification, and of what the training script in the same repository uses.
 
-**Measured impact: 0.019–0.030 NDCG**, on my own candidate pool and train/dev
-split across four models (Random, BM25, Two-Tower, LambdaMART) — an order of
-magnitude, not a constant. That is roughly ten times the differences between the
-models being compared, so any historical ESCI figure has to be checked for which
-convention produced it before it can be compared against anything.
+Because the two files weight grades differently, the same rankings get
+different NDCG values depending on which file is used, so any historical ESCI
+figure has to be checked for which convention produced it before it can be
+compared against anything. The size of the effect was measured earlier, on the
+course-project pool this repository grew out of. That pool is not this
+repository's dev split, and its result files are not tracked here, so this
+README does not quote that measurement. The analysis is in the report linked
+below.
 
 - Upstream PR: <https://github.com/amazon-science/esci-data/pull/26>
 - Minimal reproduction: <https://github.com/iamjaygao/esci-gain-mapping-repro>
@@ -132,7 +137,7 @@ its `metric_version` embeds a hash of its own source
 (`kdd_task1_ndcg@6946489c8c09dc37|gain=competition_E1_S0.1_C0.01_I0|idcg0=exclude|tie=deterministic`),
 so editing it invalidates every recorded gate value, and a test asserts the hash.
 
-**88 tests**, including one that hides the optional legacy layer and re-verifies
+**The test suite** ([`tests/`](tests/)) includes one that hides the optional legacy layer and re-verifies
 that the main gates still pass — direct evidence that the core pipeline has no
 dependency on inherited artifacts.
 
@@ -159,7 +164,7 @@ scripts/          runnable entry points: build, train, evaluate, bootstrap
 legacy/           optional; needs artifacts not in this repo. Deletable.
 artifacts/        tracked manifests and results; large binaries out-of-band
 docs/             method notes, governance, prior-work attribution, reports
-tests/            88 tests, incl. governance and reproduction gates
+tests/            unit tests, incl. governance and reproduction gates
 ```
 
 ## Reproducing this
